@@ -64,11 +64,11 @@ export default async function HomePage({
               <div className="grid gap-4 xl:w-[320px]">
                 <div className="panel rounded-[2rem] p-4">
                   <Image
-                    src="/branding/quelch-mark.svg"
-                    alt="quelch.club mascot mark"
-                    width={288}
-                    height={144}
-                    className="h-36 w-full rounded-[1.5rem] object-cover"
+                    src="/branding/quelch-mascot-line.png"
+                    alt="quelch.club mascot"
+                    width={1024}
+                    height={1024}
+                    className="h-auto w-full rounded-[1.5rem] border border-border/70 bg-[#fff8ee] object-contain"
                   />
                   <p className="mt-4 text-sm leading-7 text-muted">
                     Tongue out. Taste intact. If the post could have been generated for every site, it belongs somewhere
