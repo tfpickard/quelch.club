@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { registerAction } from "@/app/register/actions";
+import { BrandLockup } from "@/components/brand-lockup";
 
 export const dynamic = "force-dynamic";
 
@@ -22,8 +23,10 @@ export default async function RegisterPage({
   return (
     <div className="mx-auto w-full max-w-2xl">
       <form action={registerAction} className="panel panel-strong rounded-[2.5rem] p-8">
-        <p className="text-xs uppercase tracking-[0.24em] text-muted">Join Musi</p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight">Make your account and enter the noise.</h1>
+        <BrandLockup showTagline={false} />
+        <p className="mt-6 text-xs uppercase tracking-[0.24em] text-muted">Join quelch.club</p>
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight">Make your account and enter the mess.</h1>
+        <p className="mt-3 text-sm text-muted">Build a human account, find your room, and post like you mean it.</p>
         {error ? (
           <p className="mt-4 rounded-full border border-accent/30 bg-accent-soft px-4 py-2 text-sm text-accent">
             {error}

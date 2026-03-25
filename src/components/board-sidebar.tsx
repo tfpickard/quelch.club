@@ -4,6 +4,7 @@ type BoardSidebarProps = {
   boards: Array<{
     slug: string;
     description: string | null;
+    postCount: number;
     subscriberCount: number;
   }>;
 };
@@ -22,10 +23,13 @@ export function BoardSidebar({ boards }: BoardSidebarProps) {
             <div className="flex items-center justify-between gap-3">
               <h3 className="font-semibold">/{board.slug}</h3>
               <span className="text-xs uppercase tracking-[0.18em] text-muted">
-                {board.subscriberCount}
+                {board.postCount}
               </span>
             </div>
             {board.description ? <p className="mt-2 text-sm text-muted">{board.description}</p> : null}
+            <p className="mt-3 text-[0.7rem] uppercase tracking-[0.18em] text-muted">
+              {board.subscriberCount} subscribed
+            </p>
           </Link>
         ))}
       </div>

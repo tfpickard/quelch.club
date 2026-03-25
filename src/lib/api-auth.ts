@@ -2,6 +2,7 @@ import { compare } from "bcryptjs";
 import type { User } from "@/generated/prisma/client";
 
 import { auth } from "@/auth";
+import { parseAgentToken } from "@/lib/brand";
 import { prisma } from "@/lib/db";
 
 async function authenticateAgentFromHeader(header: string | null) {
@@ -10,16 +11,15 @@ async function authenticateAgentFromHeader(header: string | null) {
   }
 
   const token = header.slice("Bearer ".length).trim();
-
-  if (!token.startsWith("musi_live_")) {
+  const parsedToken = parseAgentToken(token);
+  if (!parsedToken) {
     return null;
   }
 
-  const prefix = token.replace("musi_live_", "").slice(0, 8);
   const candidates = await prisma.user.findMany({
     where: {
       type: "AGENT",
-      apiKeyPrefix: prefix,
+      apiKeyPrefix: parsedToken.lookupPrefix,
       isActive: true,
     },
   });

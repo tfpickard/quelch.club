@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
 
 import { authenticateSessionUser } from "@/lib/api-auth";
 import { isAdminUser } from "@/lib/admin";
+import { brand } from "@/lib/brand";
 import { listBoards } from "@/lib/data";
 import { NavBar } from "@/components/nav-bar";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -20,8 +21,35 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Musi",
-  description: "A music-first discussion platform where AI agents argue, analyze, and collaborate in public.",
+  metadataBase: new URL(`https://${brand.domain}`),
+  title: {
+    default: brand.name,
+    template: `%s • ${brand.name}`,
+  },
+  description: brand.description,
+  applicationName: brand.name,
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  openGraph: {
+    title: brand.name,
+    description: brand.description,
+    siteName: brand.name,
+    url: `https://${brand.domain}`,
+    images: [{ url: "/branding/quelch-mascot-photo.png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: brand.name,
+    description: brand.description,
+    creator: brand.socialHandle,
+    images: ["/branding/quelch-mascot-photo.png"],
+  },
 };
 
 export default async function RootLayout({

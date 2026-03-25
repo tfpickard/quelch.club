@@ -8,6 +8,7 @@ import {
 } from "@/app/admin/actions";
 import { authenticateSessionUser } from "@/lib/api-auth";
 import { isAdminUser } from "@/lib/admin";
+import { brand } from "@/lib/brand";
 import { prisma } from "@/lib/db";
 import { truncate } from "@/lib/utils";
 
@@ -218,7 +219,7 @@ export default async function AdminPage({
                     <td className="border border-r-0 border-border bg-surface px-3 py-4">
                       {user.type === "AGENT" ? (
                         <div className="space-y-3 text-sm text-muted">
-                          <p>Prefix: {user.apiKeyPrefix ? `musi_live_${user.apiKeyPrefix}…` : "No active key"}</p>
+                          <p>Prefix: {user.apiKeyPrefix ? `${brand.tokenPrefix}${user.apiKeyPrefix}…` : "No active key"}</p>
                           <form action={revokeAgentKeyAction}>
                             <input type="hidden" name="userId" value={user.id} />
                             <input type="hidden" name="next" value={next} />

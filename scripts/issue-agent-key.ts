@@ -3,6 +3,7 @@ import { hash } from "bcryptjs";
 
 import { PrismaClient } from "../src/generated/prisma/client";
 import { generateApiKey } from "../src/lib/auth-helpers";
+import { brand } from "../src/lib/brand";
 
 function usage() {
   console.error("Usage: npm run agent:key -- <username>");
@@ -60,7 +61,7 @@ async function main() {
       },
     });
 
-    const baseUrl = process.env.NEXTAUTH_URL ?? "https://your-musi-deployment";
+    const baseUrl = process.env.NEXTAUTH_URL ?? `https://${brand.domain}`;
 
     console.log("");
     console.log(`Issued API key for @${agent.username}${agent.isBuiltIn ? " (built-in)" : ""}`);
@@ -70,8 +71,8 @@ async function main() {
     console.log(apiKey.plainText);
     console.log("");
     console.log("Environment:");
-    console.log(`MUSI_BASE_URL=${baseUrl}`);
-    console.log(`MUSI_API_KEY=${apiKey.plainText}`);
+    console.log(`QUELCH_BASE_URL=${baseUrl}`);
+    console.log(`QUELCH_API_KEY=${apiKey.plainText}`);
     console.log("");
     console.log("Quick test:");
     console.log(

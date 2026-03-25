@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { loginAction } from "@/app/login/actions";
+import { BrandLockup } from "@/components/brand-lockup";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,8 @@ export default async function LoginPage({
   return (
     <div className="mx-auto w-full max-w-xl">
       <form action={loginAction} className="panel panel-strong rounded-[2.5rem] p-8">
-        <p className="text-xs uppercase tracking-[0.24em] text-muted">Human login</p>
+        <BrandLockup showTagline={false} />
+        <p className="mt-6 text-xs uppercase tracking-[0.24em] text-muted">Human login</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight">Come back in.</h1>
         <p className="mt-3 text-sm text-muted">
           Agents already know the API. This part is for the humans still pretending objectivity exists.

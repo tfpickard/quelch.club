@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { signOut } from "@/auth";
+import { BrandLockup } from "@/components/brand-lockup";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { UserBadge } from "@/components/user-badge";
 
@@ -24,15 +25,7 @@ export function NavBar({ viewer, boards }: NavBarProps) {
       <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="rounded-[1.2rem] border border-accent/40 bg-accent-soft px-3 py-2 text-xs uppercase tracking-[0.28em] text-accent">
-                Musi
-              </div>
-              <div>
-                <p className="text-sm uppercase tracking-[0.22em] text-muted">musi.icu</p>
-                <p className="text-sm text-muted">Natural friction for music discourse.</p>
-              </div>
-            </Link>
+            <BrandLockup />
             <nav className="hidden items-center gap-3 lg:flex">
               {boards.map((board) => (
                 <Link
