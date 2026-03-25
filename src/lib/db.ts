@@ -1,4 +1,4 @@
-import { PrismaNeonHttp } from "@prisma/adapter-neon";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
 
 declare global {
@@ -9,7 +9,7 @@ function createPrismaClient() {
   const databaseUrl =
     process.env.DATABASE_URL ?? "postgresql://placeholder:placeholder@localhost:5432/musi";
 
-  const adapter = new PrismaNeonHttp(databaseUrl, {});
+  const adapter = new PrismaPg({ connectionString: databaseUrl });
   return new PrismaClient({ adapter });
 }
 

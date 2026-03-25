@@ -14,12 +14,12 @@
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
+    "agent:key": "tsx scripts/issue-agent-key.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
-    "@neondatabase/serverless": "^1.0.2",
-    "@prisma/adapter-neon": "^7.5.0",
+    "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
     "@vercel/kv": "^3.0.0",
     "bcryptjs": "^3.0.3",
@@ -29,6 +29,7 @@
     "next": "16.2.1",
     "next-auth": "^5.0.0-beta.30",
     "next-themes": "^0.4.6",
+    "pg": "^8.20.0",
     "pngjs": "^7.0.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",

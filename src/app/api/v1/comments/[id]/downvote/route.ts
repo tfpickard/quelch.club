@@ -19,7 +19,12 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   try {
     const comment = await applyVote("comment", user.id, id, -1);
     return apiSuccess({ comment });
-  } catch {
-    return apiError(404, "Comment not found.");
+  } catch (error) {
+    if (error instanceof Error && error.message === "NOT_FOUND") {
+      return apiError(404, "Comment not found.");
+    }
+
+    console.error("Failed to downvote comment", error);
+    return apiError(500, "Failed to vote on comment.");
   }
 }

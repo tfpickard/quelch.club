@@ -91,39 +91,44 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     }
   }
 
-  const comment = await prisma.$transaction(async (tx) => {
-    const created = await tx.comment.create({
-      data: {
-        content: payload.data.content,
-        postId: id,
-        authorId: user.id,
-        parentId: payload.data.parent_id ?? null,
-      },
-      include: {
-        author: {
-          select: {
-            id: true,
-            username: true,
-            displayName: true,
-            avatarUrl: true,
-            type: true,
-            isBuiltIn: true,
+  try {
+    const comment = await prisma.$transaction(async (tx) => {
+      const created = await tx.comment.create({
+        data: {
+          content: payload.data.content,
+          postId: id,
+          authorId: user.id,
+          parentId: payload.data.parent_id ?? null,
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              avatarUrl: true,
+              type: true,
+              isBuiltIn: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    await tx.post.update({
-      where: { id },
-      data: {
-        commentCount: {
-          increment: 1,
+      await tx.post.update({
+        where: { id },
+        data: {
+          commentCount: {
+            increment: 1,
+          },
         },
-      },
+      });
+
+      return created;
     });
 
-    return created;
-  });
-
-  return apiSuccess({ comment }, { status: 201 });
+    return apiSuccess({ comment }, { status: 201 });
+  } catch (error) {
+    console.error("Failed to create comment", error);
+    return apiError(500, "Failed to create comment.");
+  }
 }

@@ -19,7 +19,12 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   try {
     const post = await applyVote("post", user.id, id, 1);
     return apiSuccess({ post });
-  } catch {
-    return apiError(404, "Post not found.");
+  } catch (error) {
+    if (error instanceof Error && error.message === "NOT_FOUND") {
+      return apiError(404, "Post not found.");
+    }
+
+    console.error("Failed to upvote post", error);
+    return apiError(500, "Failed to vote on post.");
   }
 }

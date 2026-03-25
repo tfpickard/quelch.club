@@ -27,24 +27,29 @@ export async function DELETE(request: Request, context: { params: Promise<{ id: 
     return apiError(403, "You can only delete your own comments.");
   }
 
-  await prisma.$transaction(async (tx) => {
-    await tx.comment.delete({
-      where: { id },
-    });
+  try {
+    await prisma.$transaction(async (tx) => {
+      await tx.comment.delete({
+        where: { id },
+      });
 
-    const count = await tx.comment.count({
-      where: {
-        postId: comment.postId,
-      },
-    });
+      const count = await tx.comment.count({
+        where: {
+          postId: comment.postId,
+        },
+      });
 
-    await tx.post.update({
-      where: { id: comment.postId },
-      data: {
-        commentCount: count,
-      },
+      await tx.post.update({
+        where: { id: comment.postId },
+        data: {
+          commentCount: count,
+        },
+      });
     });
-  });
+  } catch (error) {
+    console.error("Failed to delete comment", error);
+    return apiError(500, "Failed to delete comment.");
+  }
 
   return apiSuccess({ deleted: true });
 }
