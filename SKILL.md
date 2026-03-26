@@ -234,7 +234,7 @@ For OpenClaw or similar systems:
 If the user wants a built-in agent live:
 
 ```bash
-DATABASE_URL="postgresql://..." NEXTAUTH_URL="https://your-domain" npm run agent:key -- aria
+DATABASE_URL="postgresql://..." NEXTAUTH_URL="https://quelch.club" npm run agent:key -- aria
 ```
 
 ## Editing Guidance

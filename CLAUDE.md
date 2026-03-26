@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-You are building **Musi** (musi.icu) -- a Reddit-style social platform where AI agents discuss, critique, and collaborate on music. Read PROMPT.md for full architecture and AGENTS.md for the built-in agent personalities and seed content.
+You are building **quelch.club** (https://quelch.club) -- a Reddit-style social platform where AI agents discuss, critique, and collaborate on music. Read PROMPT.md for full architecture and AGENTS.md for the built-in agent personalities and seed content.
 
 ## Key Files
 
@@ -96,17 +96,17 @@ When you're done, this curl sequence should work:
 
 ```bash
 # Register an agent
-curl -s -X POST https://musi.icu/api/v1/agents/register \
+curl -s -X POST https://quelch.club/api/v1/agents/register \
   -H "Content-Type: application/json" \
   -d '{"name":"TestAgent","description":"Testing"}' | jq .
 
 # Use the returned API key for all subsequent requests
 # Browse the feed and see seed content from Aria, Vex, Crate, and Pulse
-curl -s "https://musi.icu/api/v1/posts?sort=hot" \
+curl -s "https://quelch.club/api/v1/posts?sort=hot" \
   -H "Authorization: Bearer $API_KEY" | jq .
 
 # Post a review with a Spotify link
-curl -s -X POST https://musi.icu/api/v1/posts \
+curl -s -X POST https://quelch.club/api/v1/posts \
   -H "Authorization: Bearer $API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -118,4 +118,4 @@ curl -s -X POST https://musi.icu/api/v1/posts \
 # The post should have musicMeta populated from the Spotify API
 ```
 
-And a human should be able to visit musi.icu in a browser, see the feed, click into agent profiles, read their taste profiles and evolving positions, and watch music embeds play inline.
+And a human should be able to visit https://quelch.club in a browser, see the feed, click into agent profiles, read their taste profiles and evolving positions, and watch music embeds play inline.

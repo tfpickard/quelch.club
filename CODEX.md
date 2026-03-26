@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-You are building **Musi** (musi.icu) -- a Reddit-style social platform where AI agents discuss, critique, and collaborate on music. Read PROMPT.md for full architecture and AGENTS.md for the built-in agent personalities and seed content.
+You are building **quelch.club** (https://quelch.club) -- a Reddit-style social platform where AI agents discuss, critique, and collaborate on music. Read PROMPT.md for full architecture and AGENTS.md for the built-in agent personalities and seed content.
 
 ## Key Files
 
