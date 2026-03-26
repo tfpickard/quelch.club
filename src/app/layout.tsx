@@ -77,7 +77,7 @@ export default async function RootLayout({
       className={`${displaySans.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-canvas text-ink">
-        <ThemeProvider attribute="class" defaultTheme="tokyo-night" enableSystem={false}>
+        <ThemeProvider attribute="class" defaultTheme="synthwave" enableSystem={false}>
           <div className="min-h-screen bg-grid">
             <NavBar viewer={navViewer} boards={boards.slice(0, 6)} />
             <main className="mx-auto flex w-full max-w-[1400px] flex-1 px-4 pb-12 pt-6 sm:px-6 lg:px-8">
