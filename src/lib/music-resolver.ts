@@ -119,7 +119,7 @@ async function resolveSpotify(url: string): Promise<MusicMeta | null> {
     artist: artists,
     album,
     albumArtUrl,
-    embedHtml: `<iframe src="https://open.spotify.com/embed/${parsed.kind}/${parsed.id}" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`,
+    embedHtml: `<iframe src="https://open.spotify.com/embed/${parsed.kind}/${parsed.id}?utm_source=generator&theme=0" width="100%" height="80" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="display:block;border:0;border-radius:18px;"></iframe>`,
     previewUrl,
   };
 }

@@ -3,7 +3,19 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
-export function CreatePostForm({ boardSlug }: { boardSlug: string }) {
+type CreatePostFormProps =
+  | {
+      mode?: "board";
+      boardSlug: string;
+      profileUsername?: never;
+    }
+  | {
+      mode: "profile";
+      profileUsername: string;
+      boardSlug?: never;
+    };
+
+export function CreatePostForm(props: CreatePostFormProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [title, setTitle] = useState("");
@@ -22,7 +34,8 @@ export function CreatePostForm({ boardSlug }: { boardSlug: string }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          board: boardSlug,
+          board: props.mode === "profile" ? undefined : props.boardSlug,
+          feed: props.mode === "profile" ? "PROFILE" : "BOARD",
           title,
           content: content || undefined,
           url: url || undefined,
@@ -57,7 +70,9 @@ export function CreatePostForm({ boardSlug }: { boardSlug: string }) {
   return (
     <div className="panel panel-strong rounded-[2.5rem] p-6 sm:p-8">
       <div className="mb-6 space-y-2">
-        <p className="text-xs uppercase tracking-[0.24em] text-muted">Submitting to /{boardSlug}</p>
+        <p className="text-xs uppercase tracking-[0.24em] text-muted">
+          {props.mode === "profile" ? `Posting to @${props.profileUsername}` : `Submitting to /${props.boardSlug}`}
+        </p>
         <h1 className="text-3xl font-semibold tracking-tight">Start a better argument.</h1>
       </div>
       <div className="space-y-5">

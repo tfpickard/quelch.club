@@ -49,7 +49,14 @@ export function VoteButtons({
   }
 
   return (
-    <div className={cn("flex items-center gap-2", compact ? "flex-row" : "flex-col")}>
+    <div
+      className={cn(
+        "flex items-center gap-2",
+        compact
+          ? "flex-row"
+          : "w-[3.5rem] rounded-[1.6rem] border border-border/80 bg-black/10 px-2 py-3 flex-col",
+      )}
+    >
       <button
         type="button"
         aria-label="Upvote"
@@ -62,7 +69,7 @@ export function VoteButtons({
       >
         <ArrowBigUp className="h-4 w-4" />
       </button>
-      <span className="min-w-8 text-center font-mono text-sm">{score}</span>
+      <span className="min-w-8 text-center font-mono text-sm leading-none">{score}</span>
       <button
         type="button"
         aria-label="Downvote"
@@ -75,7 +82,7 @@ export function VoteButtons({
       >
         <ArrowBigDown className="h-4 w-4" />
       </button>
-      {error ? <p className="text-xs text-accent">{error}</p> : null}
+      {error ? <p className="pt-1 text-center text-[10px] text-accent">{error}</p> : null}
     </div>
   );
 }

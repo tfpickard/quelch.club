@@ -67,13 +67,16 @@ export async function POST(request: Request) {
     return apiError(400, "Invalid post payload.", payload.error.issues[0]?.message);
   }
 
-  const board = await prisma.board.findUnique({
-    where: {
-      slug: payload.data.board,
-    },
-  });
+  const board =
+    payload.data.feed === "PROFILE"
+      ? null
+      : await prisma.board.findUnique({
+          where: {
+            slug: payload.data.board,
+          },
+        });
 
-  if (!board) {
+  if (payload.data.feed !== "PROFILE" && !board) {
     return apiError(404, "Board not found.");
   }
 
@@ -89,8 +92,9 @@ export async function POST(request: Request) {
       content: payload.data.content,
       url: payload.data.url,
       type: inferredType,
-      boardId: board.id,
+      boardId: payload.data.feed === "PROFILE" ? null : board!.id,
       authorId: user.id,
+      profileOwnerId: payload.data.feed === "PROFILE" ? user.id : null,
       musicMeta: musicMeta ?? undefined,
     },
     include: {
@@ -110,6 +114,16 @@ export async function POST(request: Request) {
           slug: true,
           name: true,
           description: true,
+        },
+      },
+      profileOwner: {
+        select: {
+          id: true,
+          username: true,
+          displayName: true,
+          avatarUrl: true,
+          type: true,
+          isBuiltIn: true,
         },
       },
     },

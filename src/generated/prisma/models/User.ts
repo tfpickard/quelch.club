@@ -44,6 +44,8 @@ export type UserMinAggregateOutputType = {
   apiKey: string | null
   apiKeyPrefix: string | null
   description: string | null
+  location: string | null
+  favoriteInsect: string | null
   avatarUrl: string | null
   karma: number | null
   ownerUserId: string | null
@@ -64,6 +66,8 @@ export type UserMaxAggregateOutputType = {
   apiKey: string | null
   apiKeyPrefix: string | null
   description: string | null
+  location: string | null
+  favoriteInsect: string | null
   avatarUrl: string | null
   karma: number | null
   ownerUserId: string | null
@@ -84,7 +88,10 @@ export type UserCountAggregateOutputType = {
   apiKey: number
   apiKeyPrefix: number
   description: number
+  location: number
+  favoriteInsect: number
   avatarUrl: number
+  socialLinks: number
   karma: number
   personality: number
   tasteProfile: number
@@ -116,6 +123,8 @@ export type UserMinAggregateInputType = {
   apiKey?: true
   apiKeyPrefix?: true
   description?: true
+  location?: true
+  favoriteInsect?: true
   avatarUrl?: true
   karma?: true
   ownerUserId?: true
@@ -136,6 +145,8 @@ export type UserMaxAggregateInputType = {
   apiKey?: true
   apiKeyPrefix?: true
   description?: true
+  location?: true
+  favoriteInsect?: true
   avatarUrl?: true
   karma?: true
   ownerUserId?: true
@@ -156,7 +167,10 @@ export type UserCountAggregateInputType = {
   apiKey?: true
   apiKeyPrefix?: true
   description?: true
+  location?: true
+  favoriteInsect?: true
   avatarUrl?: true
+  socialLinks?: true
   karma?: true
   personality?: true
   tasteProfile?: true
@@ -265,7 +279,10 @@ export type UserGroupByOutputType = {
   apiKey: string | null
   apiKeyPrefix: string | null
   description: string | null
+  location: string | null
+  favoriteInsect: string | null
   avatarUrl: string | null
+  socialLinks: runtime.JsonValue | null
   karma: number
   personality: runtime.JsonValue | null
   tasteProfile: runtime.JsonValue | null
@@ -310,7 +327,10 @@ export type UserWhereInput = {
   apiKey?: Prisma.StringNullableFilter<"User"> | string | null
   apiKeyPrefix?: Prisma.StringNullableFilter<"User"> | string | null
   description?: Prisma.StringNullableFilter<"User"> | string | null
+  location?: Prisma.StringNullableFilter<"User"> | string | null
+  favoriteInsect?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  socialLinks?: Prisma.JsonNullableFilter<"User">
   karma?: Prisma.IntFilter<"User"> | number
   personality?: Prisma.JsonNullableFilter<"User">
   tasteProfile?: Prisma.JsonNullableFilter<"User">
@@ -323,8 +343,10 @@ export type UserWhereInput = {
   ownerUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   ownedAgents?: Prisma.UserListRelationFilter
   posts?: Prisma.PostListRelationFilter
+  profileFeedPosts?: Prisma.PostListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   votes?: Prisma.VoteListRelationFilter
+  savedPosts?: Prisma.SavedPostListRelationFilter
   sentDMs?: Prisma.DirectMessageListRelationFilter
   receivedDMs?: Prisma.DirectMessageListRelationFilter
   subscriptions?: Prisma.BoardSubscriptionListRelationFilter
@@ -345,7 +367,10 @@ export type UserOrderByWithRelationInput = {
   apiKey?: Prisma.SortOrderInput | Prisma.SortOrder
   apiKeyPrefix?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
+  favoriteInsect?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  socialLinks?: Prisma.SortOrderInput | Prisma.SortOrder
   karma?: Prisma.SortOrder
   personality?: Prisma.SortOrderInput | Prisma.SortOrder
   tasteProfile?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -358,8 +383,10 @@ export type UserOrderByWithRelationInput = {
   ownerUser?: Prisma.UserOrderByWithRelationInput
   ownedAgents?: Prisma.UserOrderByRelationAggregateInput
   posts?: Prisma.PostOrderByRelationAggregateInput
+  profileFeedPosts?: Prisma.PostOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
   votes?: Prisma.VoteOrderByRelationAggregateInput
+  savedPosts?: Prisma.SavedPostOrderByRelationAggregateInput
   sentDMs?: Prisma.DirectMessageOrderByRelationAggregateInput
   receivedDMs?: Prisma.DirectMessageOrderByRelationAggregateInput
   subscriptions?: Prisma.BoardSubscriptionOrderByRelationAggregateInput
@@ -383,7 +410,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   apiKey?: Prisma.StringNullableFilter<"User"> | string | null
   apiKeyPrefix?: Prisma.StringNullableFilter<"User"> | string | null
   description?: Prisma.StringNullableFilter<"User"> | string | null
+  location?: Prisma.StringNullableFilter<"User"> | string | null
+  favoriteInsect?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  socialLinks?: Prisma.JsonNullableFilter<"User">
   karma?: Prisma.IntFilter<"User"> | number
   personality?: Prisma.JsonNullableFilter<"User">
   tasteProfile?: Prisma.JsonNullableFilter<"User">
@@ -396,8 +426,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   ownerUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   ownedAgents?: Prisma.UserListRelationFilter
   posts?: Prisma.PostListRelationFilter
+  profileFeedPosts?: Prisma.PostListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   votes?: Prisma.VoteListRelationFilter
+  savedPosts?: Prisma.SavedPostListRelationFilter
   sentDMs?: Prisma.DirectMessageListRelationFilter
   receivedDMs?: Prisma.DirectMessageListRelationFilter
   subscriptions?: Prisma.BoardSubscriptionListRelationFilter
@@ -418,7 +450,10 @@ export type UserOrderByWithAggregationInput = {
   apiKey?: Prisma.SortOrderInput | Prisma.SortOrder
   apiKeyPrefix?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
+  favoriteInsect?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  socialLinks?: Prisma.SortOrderInput | Prisma.SortOrder
   karma?: Prisma.SortOrder
   personality?: Prisma.SortOrderInput | Prisma.SortOrder
   tasteProfile?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -448,7 +483,10 @@ export type UserScalarWhereWithAggregatesInput = {
   apiKey?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   apiKeyPrefix?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  location?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  favoriteInsect?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  socialLinks?: Prisma.JsonNullableWithAggregatesFilter<"User">
   karma?: Prisma.IntWithAggregatesFilter<"User"> | number
   personality?: Prisma.JsonNullableWithAggregatesFilter<"User">
   tasteProfile?: Prisma.JsonNullableWithAggregatesFilter<"User">
@@ -470,7 +508,10 @@ export type UserCreateInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -482,8 +523,10 @@ export type UserCreateInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -504,7 +547,10 @@ export type UserUncheckedCreateInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -516,8 +562,10 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -538,7 +586,10 @@ export type UserUpdateInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -550,8 +601,10 @@ export type UserUpdateInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -572,7 +625,10 @@ export type UserUncheckedUpdateInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -584,8 +640,10 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -606,7 +664,10 @@ export type UserCreateManyInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -628,7 +689,10 @@ export type UserUpdateManyMutationInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -649,7 +713,10 @@ export type UserUncheckedUpdateManyInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -686,7 +753,10 @@ export type UserCountOrderByAggregateInput = {
   apiKey?: Prisma.SortOrder
   apiKeyPrefix?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  favoriteInsect?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  socialLinks?: Prisma.SortOrder
   karma?: Prisma.SortOrder
   personality?: Prisma.SortOrder
   tasteProfile?: Prisma.SortOrder
@@ -712,6 +782,8 @@ export type UserMaxOrderByAggregateInput = {
   apiKey?: Prisma.SortOrder
   apiKeyPrefix?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  favoriteInsect?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   karma?: Prisma.SortOrder
   ownerUserId?: Prisma.SortOrder
@@ -732,6 +804,8 @@ export type UserMinOrderByAggregateInput = {
   apiKey?: Prisma.SortOrder
   apiKeyPrefix?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  favoriteInsect?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   karma?: Prisma.SortOrder
   ownerUserId?: Prisma.SortOrder
@@ -861,12 +935,28 @@ export type UserCreateNestedOneWithoutPostsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
+export type UserCreateNestedOneWithoutProfileFeedPostsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProfileFeedPostsInput, Prisma.UserUncheckedCreateWithoutProfileFeedPostsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProfileFeedPostsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
 export type UserUpdateOneRequiredWithoutPostsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutPostsInput, Prisma.UserUncheckedCreateWithoutPostsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutPostsInput
   upsert?: Prisma.UserUpsertWithoutPostsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPostsInput, Prisma.UserUpdateWithoutPostsInput>, Prisma.UserUncheckedUpdateWithoutPostsInput>
+}
+
+export type UserUpdateOneWithoutProfileFeedPostsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProfileFeedPostsInput, Prisma.UserUncheckedCreateWithoutProfileFeedPostsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProfileFeedPostsInput
+  upsert?: Prisma.UserUpsertWithoutProfileFeedPostsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProfileFeedPostsInput, Prisma.UserUpdateWithoutProfileFeedPostsInput>, Prisma.UserUncheckedUpdateWithoutProfileFeedPostsInput>
 }
 
 export type UserCreateNestedOneWithoutCommentsInput = {
@@ -967,6 +1057,20 @@ export type UserUpdateOneRequiredWithoutSubscriptionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSubscriptionsInput, Prisma.UserUpdateWithoutSubscriptionsInput>, Prisma.UserUncheckedUpdateWithoutSubscriptionsInput>
 }
 
+export type UserCreateNestedOneWithoutSavedPostsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedPostsInput, Prisma.UserUncheckedCreateWithoutSavedPostsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedPostsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSavedPostsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedPostsInput, Prisma.UserUncheckedCreateWithoutSavedPostsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedPostsInput
+  upsert?: Prisma.UserUpsertWithoutSavedPostsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSavedPostsInput, Prisma.UserUpdateWithoutSavedPostsInput>, Prisma.UserUncheckedUpdateWithoutSavedPostsInput>
+}
+
 export type UserCreateNestedOneWithoutAccountsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
@@ -1005,7 +1109,10 @@ export type UserCreateWithoutOwnedAgentsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1016,8 +1123,10 @@ export type UserCreateWithoutOwnedAgentsInput = {
   updatedAt?: Date | string
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -1038,7 +1147,10 @@ export type UserUncheckedCreateWithoutOwnedAgentsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1049,8 +1161,10 @@ export type UserUncheckedCreateWithoutOwnedAgentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -1076,7 +1190,10 @@ export type UserCreateWithoutOwnerUserInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1087,8 +1204,10 @@ export type UserCreateWithoutOwnerUserInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -1109,7 +1228,10 @@ export type UserUncheckedCreateWithoutOwnerUserInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1120,8 +1242,10 @@ export type UserUncheckedCreateWithoutOwnerUserInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -1163,7 +1287,10 @@ export type UserUpdateWithoutOwnedAgentsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1174,8 +1301,10 @@ export type UserUpdateWithoutOwnedAgentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -1196,7 +1325,10 @@ export type UserUncheckedUpdateWithoutOwnedAgentsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1207,8 +1339,10 @@ export type UserUncheckedUpdateWithoutOwnedAgentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -1248,7 +1382,10 @@ export type UserScalarWhereInput = {
   apiKey?: Prisma.StringNullableFilter<"User"> | string | null
   apiKeyPrefix?: Prisma.StringNullableFilter<"User"> | string | null
   description?: Prisma.StringNullableFilter<"User"> | string | null
+  location?: Prisma.StringNullableFilter<"User"> | string | null
+  favoriteInsect?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  socialLinks?: Prisma.JsonNullableFilter<"User">
   karma?: Prisma.IntFilter<"User"> | number
   personality?: Prisma.JsonNullableFilter<"User">
   tasteProfile?: Prisma.JsonNullableFilter<"User">
@@ -1270,7 +1407,10 @@ export type UserCreateWithoutBoardsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1282,8 +1422,10 @@ export type UserCreateWithoutBoardsInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -1303,7 +1445,10 @@ export type UserUncheckedCreateWithoutBoardsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1315,8 +1460,10 @@ export type UserUncheckedCreateWithoutBoardsInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -1352,7 +1499,10 @@ export type UserUpdateWithoutBoardsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1364,8 +1514,10 @@ export type UserUpdateWithoutBoardsInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -1385,7 +1537,10 @@ export type UserUncheckedUpdateWithoutBoardsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1397,8 +1552,10 @@ export type UserUncheckedUpdateWithoutBoardsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -1418,7 +1575,10 @@ export type UserCreateWithoutPostsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1429,8 +1589,10 @@ export type UserCreateWithoutPostsInput = {
   updatedAt?: Date | string
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -1451,7 +1613,10 @@ export type UserUncheckedCreateWithoutPostsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1462,8 +1627,10 @@ export type UserUncheckedCreateWithoutPostsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -1477,6 +1644,87 @@ export type UserUncheckedCreateWithoutPostsInput = {
 export type UserCreateOrConnectWithoutPostsInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutPostsInput, Prisma.UserUncheckedCreateWithoutPostsInput>
+}
+
+export type UserCreateWithoutProfileFeedPostsInput = {
+  id?: string
+  type: $Enums.UserType
+  username: string
+  displayName: string
+  email?: string | null
+  passwordHash?: string | null
+  apiKey?: string | null
+  apiKeyPrefix?: string | null
+  description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
+  avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  karma?: number
+  personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isBuiltIn?: boolean
+  lastActiveAt?: Date | string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
+  ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
+  sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
+  receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
+  subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
+  following?: Prisma.FollowCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.FollowCreateNestedManyWithoutFollowedInput
+  boards?: Prisma.BoardCreateNestedManyWithoutCreatorInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutProfileFeedPostsInput = {
+  id?: string
+  type: $Enums.UserType
+  username: string
+  displayName: string
+  email?: string | null
+  passwordHash?: string | null
+  apiKey?: string | null
+  apiKeyPrefix?: string | null
+  description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
+  avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  karma?: number
+  personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ownerUserId?: string | null
+  isBuiltIn?: boolean
+  lastActiveAt?: Date | string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
+  sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
+  subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowedInput
+  boards?: Prisma.BoardUncheckedCreateNestedManyWithoutCreatorInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutProfileFeedPostsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutProfileFeedPostsInput, Prisma.UserUncheckedCreateWithoutProfileFeedPostsInput>
 }
 
 export type UserUpsertWithoutPostsInput = {
@@ -1500,7 +1748,10 @@ export type UserUpdateWithoutPostsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1511,8 +1762,10 @@ export type UserUpdateWithoutPostsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -1533,7 +1786,10 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1544,8 +1800,97 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
+  sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
+  subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.FollowUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.FollowUncheckedUpdateManyWithoutFollowedNestedInput
+  boards?: Prisma.BoardUncheckedUpdateManyWithoutCreatorNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutProfileFeedPostsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutProfileFeedPostsInput, Prisma.UserUncheckedUpdateWithoutProfileFeedPostsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutProfileFeedPostsInput, Prisma.UserUncheckedCreateWithoutProfileFeedPostsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutProfileFeedPostsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutProfileFeedPostsInput, Prisma.UserUncheckedUpdateWithoutProfileFeedPostsInput>
+}
+
+export type UserUpdateWithoutProfileFeedPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  karma?: Prisma.IntFieldUpdateOperationsInput | number
+  personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isBuiltIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
+  ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
+  sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
+  receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
+  subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
+  following?: Prisma.FollowUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.FollowUpdateManyWithoutFollowedNestedInput
+  boards?: Prisma.BoardUpdateManyWithoutCreatorNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutProfileFeedPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  karma?: Prisma.IntFieldUpdateOperationsInput | number
+  personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBuiltIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -1566,7 +1911,10 @@ export type UserCreateWithoutCommentsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1578,7 +1926,9 @@ export type UserCreateWithoutCommentsInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -1599,7 +1949,10 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1611,7 +1964,9 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -1648,7 +2003,10 @@ export type UserUpdateWithoutCommentsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1660,7 +2018,9 @@ export type UserUpdateWithoutCommentsInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -1681,7 +2041,10 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1693,7 +2056,9 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -1714,7 +2079,10 @@ export type UserCreateWithoutVotesInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1726,7 +2094,9 @@ export type UserCreateWithoutVotesInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -1747,7 +2117,10 @@ export type UserUncheckedCreateWithoutVotesInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1759,7 +2132,9 @@ export type UserUncheckedCreateWithoutVotesInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -1796,7 +2171,10 @@ export type UserUpdateWithoutVotesInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1808,7 +2186,9 @@ export type UserUpdateWithoutVotesInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -1829,7 +2209,10 @@ export type UserUncheckedUpdateWithoutVotesInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1841,7 +2224,9 @@ export type UserUncheckedUpdateWithoutVotesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -1862,7 +2247,10 @@ export type UserCreateWithoutSentDMsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1874,8 +2262,10 @@ export type UserCreateWithoutSentDMsInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
   following?: Prisma.FollowCreateNestedManyWithoutFollowerInput
@@ -1895,7 +2285,10 @@ export type UserUncheckedCreateWithoutSentDMsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1907,8 +2300,10 @@ export type UserUncheckedCreateWithoutSentDMsInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
   following?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -1933,7 +2328,10 @@ export type UserCreateWithoutReceivedDMsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1945,8 +2343,10 @@ export type UserCreateWithoutReceivedDMsInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
   following?: Prisma.FollowCreateNestedManyWithoutFollowerInput
@@ -1966,7 +2366,10 @@ export type UserUncheckedCreateWithoutReceivedDMsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1978,8 +2381,10 @@ export type UserUncheckedCreateWithoutReceivedDMsInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
   following?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -2015,7 +2420,10 @@ export type UserUpdateWithoutSentDMsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2027,8 +2435,10 @@ export type UserUpdateWithoutSentDMsInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
   following?: Prisma.FollowUpdateManyWithoutFollowerNestedInput
@@ -2048,7 +2458,10 @@ export type UserUncheckedUpdateWithoutSentDMsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2060,8 +2473,10 @@ export type UserUncheckedUpdateWithoutSentDMsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   following?: Prisma.FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -2092,7 +2507,10 @@ export type UserUpdateWithoutReceivedDMsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2104,8 +2522,10 @@ export type UserUpdateWithoutReceivedDMsInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
   following?: Prisma.FollowUpdateManyWithoutFollowerNestedInput
@@ -2125,7 +2545,10 @@ export type UserUncheckedUpdateWithoutReceivedDMsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2137,8 +2560,10 @@ export type UserUncheckedUpdateWithoutReceivedDMsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   following?: Prisma.FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -2158,7 +2583,10 @@ export type UserCreateWithoutFollowingInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2170,8 +2598,10 @@ export type UserCreateWithoutFollowingInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -2191,7 +2621,10 @@ export type UserUncheckedCreateWithoutFollowingInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2203,8 +2636,10 @@ export type UserUncheckedCreateWithoutFollowingInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -2229,7 +2664,10 @@ export type UserCreateWithoutFollowersInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2241,8 +2679,10 @@ export type UserCreateWithoutFollowersInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -2262,7 +2702,10 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2274,8 +2717,10 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -2311,7 +2756,10 @@ export type UserUpdateWithoutFollowingInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2323,8 +2771,10 @@ export type UserUpdateWithoutFollowingInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -2344,7 +2794,10 @@ export type UserUncheckedUpdateWithoutFollowingInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2356,8 +2809,10 @@ export type UserUncheckedUpdateWithoutFollowingInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -2388,7 +2843,10 @@ export type UserUpdateWithoutFollowersInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2400,8 +2858,10 @@ export type UserUpdateWithoutFollowersInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -2421,7 +2881,10 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2433,8 +2896,10 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -2454,7 +2919,10 @@ export type UserCreateWithoutSubscriptionsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2466,8 +2934,10 @@ export type UserCreateWithoutSubscriptionsInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   following?: Prisma.FollowCreateNestedManyWithoutFollowerInput
@@ -2487,7 +2957,10 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2499,8 +2972,10 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   following?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -2536,7 +3011,10 @@ export type UserUpdateWithoutSubscriptionsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2548,8 +3026,10 @@ export type UserUpdateWithoutSubscriptionsInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   following?: Prisma.FollowUpdateManyWithoutFollowerNestedInput
@@ -2569,7 +3049,10 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2581,10 +3064,180 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
+  sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
+  following?: Prisma.FollowUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.FollowUncheckedUpdateManyWithoutFollowedNestedInput
+  boards?: Prisma.BoardUncheckedUpdateManyWithoutCreatorNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSavedPostsInput = {
+  id?: string
+  type: $Enums.UserType
+  username: string
+  displayName: string
+  email?: string | null
+  passwordHash?: string | null
+  apiKey?: string | null
+  apiKeyPrefix?: string | null
+  description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
+  avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  karma?: number
+  personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isBuiltIn?: boolean
+  lastActiveAt?: Date | string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
+  ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
+  receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
+  subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
+  following?: Prisma.FollowCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.FollowCreateNestedManyWithoutFollowedInput
+  boards?: Prisma.BoardCreateNestedManyWithoutCreatorInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSavedPostsInput = {
+  id?: string
+  type: $Enums.UserType
+  username: string
+  displayName: string
+  email?: string | null
+  passwordHash?: string | null
+  apiKey?: string | null
+  apiKeyPrefix?: string | null
+  description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
+  avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  karma?: number
+  personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ownerUserId?: string | null
+  isBuiltIn?: boolean
+  lastActiveAt?: Date | string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
+  subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowedInput
+  boards?: Prisma.BoardUncheckedCreateNestedManyWithoutCreatorInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSavedPostsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedPostsInput, Prisma.UserUncheckedCreateWithoutSavedPostsInput>
+}
+
+export type UserUpsertWithoutSavedPostsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSavedPostsInput, Prisma.UserUncheckedUpdateWithoutSavedPostsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedPostsInput, Prisma.UserUncheckedCreateWithoutSavedPostsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSavedPostsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSavedPostsInput, Prisma.UserUncheckedUpdateWithoutSavedPostsInput>
+}
+
+export type UserUpdateWithoutSavedPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  karma?: Prisma.IntFieldUpdateOperationsInput | number
+  personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isBuiltIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
+  ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
+  receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
+  subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
+  following?: Prisma.FollowUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.FollowUpdateManyWithoutFollowedNestedInput
+  boards?: Prisma.BoardUpdateManyWithoutCreatorNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSavedPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  karma?: Prisma.IntFieldUpdateOperationsInput | number
+  personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBuiltIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
+  subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   following?: Prisma.FollowUncheckedUpdateManyWithoutFollowerNestedInput
   followers?: Prisma.FollowUncheckedUpdateManyWithoutFollowedNestedInput
   boards?: Prisma.BoardUncheckedUpdateManyWithoutCreatorNestedInput
@@ -2602,7 +3255,10 @@ export type UserCreateWithoutAccountsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2614,8 +3270,10 @@ export type UserCreateWithoutAccountsInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -2635,7 +3293,10 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2647,8 +3308,10 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -2684,7 +3347,10 @@ export type UserUpdateWithoutAccountsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2696,8 +3362,10 @@ export type UserUpdateWithoutAccountsInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -2717,7 +3385,10 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2729,8 +3400,10 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -2750,7 +3423,10 @@ export type UserCreateWithoutSessionsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2762,8 +3438,10 @@ export type UserCreateWithoutSessionsInput = {
   ownerUser?: Prisma.UserCreateNestedOneWithoutOwnedAgentsInput
   ownedAgents?: Prisma.UserCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionCreateNestedManyWithoutUserInput
@@ -2783,7 +3461,10 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2795,8 +3476,10 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   ownedAgents?: Prisma.UserUncheckedCreateNestedManyWithoutOwnerUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  profileFeedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutProfileOwnerInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPosts?: Prisma.SavedPostUncheckedCreateNestedManyWithoutUserInput
   sentDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutSenderInput
   receivedDMs?: Prisma.DirectMessageUncheckedCreateNestedManyWithoutReceiverInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -2832,7 +3515,10 @@ export type UserUpdateWithoutSessionsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2844,8 +3530,10 @@ export type UserUpdateWithoutSessionsInput = {
   ownerUser?: Prisma.UserUpdateOneWithoutOwnedAgentsNestedInput
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -2865,7 +3553,10 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2877,8 +3568,10 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -2898,7 +3591,10 @@ export type UserCreateManyOwnerUserInput = {
   apiKey?: string | null
   apiKeyPrefix?: string | null
   description?: string | null
+  location?: string | null
+  favoriteInsect?: string | null
   avatarUrl?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2919,7 +3615,10 @@ export type UserUpdateWithoutOwnerUserInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2930,8 +3629,10 @@ export type UserUpdateWithoutOwnerUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUpdateManyWithoutUserNestedInput
@@ -2952,7 +3653,10 @@ export type UserUncheckedUpdateWithoutOwnerUserInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2963,8 +3667,10 @@ export type UserUncheckedUpdateWithoutOwnerUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedAgents?: Prisma.UserUncheckedUpdateManyWithoutOwnerUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  profileFeedPosts?: Prisma.PostUncheckedUpdateManyWithoutProfileOwnerNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPosts?: Prisma.SavedPostUncheckedUpdateManyWithoutUserNestedInput
   sentDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutSenderNestedInput
   receivedDMs?: Prisma.DirectMessageUncheckedUpdateManyWithoutReceiverNestedInput
   subscriptions?: Prisma.BoardSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -2985,7 +3691,10 @@ export type UserUncheckedUpdateManyWithoutOwnerUserInput = {
   apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKeyPrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favoriteInsect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   karma?: Prisma.IntFieldUpdateOperationsInput | number
   personality?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tasteProfile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3004,8 +3713,10 @@ export type UserUncheckedUpdateManyWithoutOwnerUserInput = {
 export type UserCountOutputType = {
   ownedAgents: number
   posts: number
+  profileFeedPosts: number
   comments: number
   votes: number
+  savedPosts: number
   sentDMs: number
   receivedDMs: number
   subscriptions: number
@@ -3019,8 +3730,10 @@ export type UserCountOutputType = {
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ownedAgents?: boolean | UserCountOutputTypeCountOwnedAgentsArgs
   posts?: boolean | UserCountOutputTypeCountPostsArgs
+  profileFeedPosts?: boolean | UserCountOutputTypeCountProfileFeedPostsArgs
   comments?: boolean | UserCountOutputTypeCountCommentsArgs
   votes?: boolean | UserCountOutputTypeCountVotesArgs
+  savedPosts?: boolean | UserCountOutputTypeCountSavedPostsArgs
   sentDMs?: boolean | UserCountOutputTypeCountSentDMsArgs
   receivedDMs?: boolean | UserCountOutputTypeCountReceivedDMsArgs
   subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
@@ -3058,6 +3771,13 @@ export type UserCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types.Exte
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountProfileFeedPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PostWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CommentWhereInput
 }
@@ -3067,6 +3787,13 @@ export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.E
  */
 export type UserCountOutputTypeCountVotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.VoteWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSavedPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SavedPostWhereInput
 }
 
 /**
@@ -3136,7 +3863,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   apiKey?: boolean
   apiKeyPrefix?: boolean
   description?: boolean
+  location?: boolean
+  favoriteInsect?: boolean
   avatarUrl?: boolean
+  socialLinks?: boolean
   karma?: boolean
   personality?: boolean
   tasteProfile?: boolean
@@ -3149,8 +3879,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   ownerUser?: boolean | Prisma.User$ownerUserArgs<ExtArgs>
   ownedAgents?: boolean | Prisma.User$ownedAgentsArgs<ExtArgs>
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
+  profileFeedPosts?: boolean | Prisma.User$profileFeedPostsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   votes?: boolean | Prisma.User$votesArgs<ExtArgs>
+  savedPosts?: boolean | Prisma.User$savedPostsArgs<ExtArgs>
   sentDMs?: boolean | Prisma.User$sentDMsArgs<ExtArgs>
   receivedDMs?: boolean | Prisma.User$receivedDMsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
@@ -3172,7 +3904,10 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   apiKey?: boolean
   apiKeyPrefix?: boolean
   description?: boolean
+  location?: boolean
+  favoriteInsect?: boolean
   avatarUrl?: boolean
+  socialLinks?: boolean
   karma?: boolean
   personality?: boolean
   tasteProfile?: boolean
@@ -3195,7 +3930,10 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   apiKey?: boolean
   apiKeyPrefix?: boolean
   description?: boolean
+  location?: boolean
+  favoriteInsect?: boolean
   avatarUrl?: boolean
+  socialLinks?: boolean
   karma?: boolean
   personality?: boolean
   tasteProfile?: boolean
@@ -3218,7 +3956,10 @@ export type UserSelectScalar = {
   apiKey?: boolean
   apiKeyPrefix?: boolean
   description?: boolean
+  location?: boolean
+  favoriteInsect?: boolean
   avatarUrl?: boolean
+  socialLinks?: boolean
   karma?: boolean
   personality?: boolean
   tasteProfile?: boolean
@@ -3230,13 +3971,15 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "username" | "displayName" | "email" | "passwordHash" | "apiKey" | "apiKeyPrefix" | "description" | "avatarUrl" | "karma" | "personality" | "tasteProfile" | "ownerUserId" | "isBuiltIn" | "lastActiveAt" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "username" | "displayName" | "email" | "passwordHash" | "apiKey" | "apiKeyPrefix" | "description" | "location" | "favoriteInsect" | "avatarUrl" | "socialLinks" | "karma" | "personality" | "tasteProfile" | "ownerUserId" | "isBuiltIn" | "lastActiveAt" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ownerUser?: boolean | Prisma.User$ownerUserArgs<ExtArgs>
   ownedAgents?: boolean | Prisma.User$ownedAgentsArgs<ExtArgs>
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
+  profileFeedPosts?: boolean | Prisma.User$profileFeedPostsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   votes?: boolean | Prisma.User$votesArgs<ExtArgs>
+  savedPosts?: boolean | Prisma.User$savedPostsArgs<ExtArgs>
   sentDMs?: boolean | Prisma.User$sentDMsArgs<ExtArgs>
   receivedDMs?: boolean | Prisma.User$receivedDMsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
@@ -3260,8 +4003,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     ownerUser: Prisma.$UserPayload<ExtArgs> | null
     ownedAgents: Prisma.$UserPayload<ExtArgs>[]
     posts: Prisma.$PostPayload<ExtArgs>[]
+    profileFeedPosts: Prisma.$PostPayload<ExtArgs>[]
     comments: Prisma.$CommentPayload<ExtArgs>[]
     votes: Prisma.$VotePayload<ExtArgs>[]
+    savedPosts: Prisma.$SavedPostPayload<ExtArgs>[]
     sentDMs: Prisma.$DirectMessagePayload<ExtArgs>[]
     receivedDMs: Prisma.$DirectMessagePayload<ExtArgs>[]
     subscriptions: Prisma.$BoardSubscriptionPayload<ExtArgs>[]
@@ -3281,7 +4026,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     apiKey: string | null
     apiKeyPrefix: string | null
     description: string | null
+    location: string | null
+    favoriteInsect: string | null
     avatarUrl: string | null
+    socialLinks: runtime.JsonValue | null
     karma: number
     personality: runtime.JsonValue | null
     tasteProfile: runtime.JsonValue | null
@@ -3688,8 +4436,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   ownerUser<T extends Prisma.User$ownerUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ownerUserArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ownedAgents<T extends Prisma.User$ownedAgentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ownedAgentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   posts<T extends Prisma.User$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profileFeedPosts<T extends Prisma.User$profileFeedPostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileFeedPostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   votes<T extends Prisma.User$votesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$votesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  savedPosts<T extends Prisma.User$savedPostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savedPostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sentDMs<T extends Prisma.User$sentDMsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentDMsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DirectMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   receivedDMs<T extends Prisma.User$receivedDMsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedDMsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DirectMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BoardSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3736,7 +4486,10 @@ export interface UserFieldRefs {
   readonly apiKey: Prisma.FieldRef<"User", 'String'>
   readonly apiKeyPrefix: Prisma.FieldRef<"User", 'String'>
   readonly description: Prisma.FieldRef<"User", 'String'>
+  readonly location: Prisma.FieldRef<"User", 'String'>
+  readonly favoriteInsect: Prisma.FieldRef<"User", 'String'>
   readonly avatarUrl: Prisma.FieldRef<"User", 'String'>
+  readonly socialLinks: Prisma.FieldRef<"User", 'Json'>
   readonly karma: Prisma.FieldRef<"User", 'Int'>
   readonly personality: Prisma.FieldRef<"User", 'Json'>
   readonly tasteProfile: Prisma.FieldRef<"User", 'Json'>
@@ -4214,6 +4967,30 @@ export type User$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 }
 
 /**
+ * User.profileFeedPosts
+ */
+export type User$profileFeedPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Post
+   */
+  select?: Prisma.PostSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Post
+   */
+  omit?: Prisma.PostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
+  where?: Prisma.PostWhereInput
+  orderBy?: Prisma.PostOrderByWithRelationInput | Prisma.PostOrderByWithRelationInput[]
+  cursor?: Prisma.PostWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PostScalarFieldEnum | Prisma.PostScalarFieldEnum[]
+}
+
+/**
  * User.comments
  */
 export type User$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4259,6 +5036,30 @@ export type User$votesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.VoteScalarFieldEnum | Prisma.VoteScalarFieldEnum[]
+}
+
+/**
+ * User.savedPosts
+ */
+export type User$savedPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedPost
+   */
+  select?: Prisma.SavedPostSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedPost
+   */
+  omit?: Prisma.SavedPostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedPostInclude<ExtArgs> | null
+  where?: Prisma.SavedPostWhereInput
+  orderBy?: Prisma.SavedPostOrderByWithRelationInput | Prisma.SavedPostOrderByWithRelationInput[]
+  cursor?: Prisma.SavedPostWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SavedPostScalarFieldEnum | Prisma.SavedPostScalarFieldEnum[]
 }
 
 /**

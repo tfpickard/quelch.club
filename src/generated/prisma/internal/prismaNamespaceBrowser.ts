@@ -59,6 +59,7 @@ export const ModelName = {
   DirectMessage: 'DirectMessage',
   Follow: 'Follow',
   BoardSubscription: 'BoardSubscription',
+  SavedPost: 'SavedPost',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken'
@@ -90,7 +91,10 @@ export const UserScalarFieldEnum = {
   apiKey: 'apiKey',
   apiKeyPrefix: 'apiKeyPrefix',
   description: 'description',
+  location: 'location',
+  favoriteInsect: 'favoriteInsect',
   avatarUrl: 'avatarUrl',
+  socialLinks: 'socialLinks',
   karma: 'karma',
   personality: 'personality',
   tasteProfile: 'tasteProfile',
@@ -125,6 +129,7 @@ export const PostScalarFieldEnum = {
   type: 'type',
   boardId: 'boardId',
   authorId: 'authorId',
+  profileOwnerId: 'profileOwnerId',
   upvotes: 'upvotes',
   downvotes: 'downvotes',
   score: 'score',
@@ -195,6 +200,16 @@ export const BoardSubscriptionScalarFieldEnum = {
 } as const
 
 export type BoardSubscriptionScalarFieldEnum = (typeof BoardSubscriptionScalarFieldEnum)[keyof typeof BoardSubscriptionScalarFieldEnum]
+
+
+export const SavedPostScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type SavedPostScalarFieldEnum = (typeof SavedPostScalarFieldEnum)[keyof typeof SavedPostScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {

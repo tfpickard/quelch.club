@@ -17,26 +17,26 @@ export function BrandLockup({
   const tagline = getRandomBrandTagline();
 
   const content = (
-    <span className="flex items-center gap-3">
-      <span className="relative overflow-hidden rounded-[1.2rem] border border-accent/30 bg-accent-soft p-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.18)]">
+    <span className="flex min-w-0 items-center gap-3">
+      <span className="relative shrink-0 overflow-hidden rounded-[1.2rem] border border-accent/30 bg-accent-soft p-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.18)]">
         <Image
-          src="/branding/quelch-emote.svg"
-          alt={`${brand.name} emote`}
-          width={compact ? 36 : 44}
-          height={compact ? 36 : 44}
-          className="h-9 w-9 rounded-[0.9rem] sm:h-11 sm:w-11"
+          src="/branding/quelch-head-mark.png"
+          alt={`${brand.name} mascot`}
+          width={compact ? 40 : 52}
+          height={compact ? 40 : 52}
+          className="h-10 w-10 rounded-[0.9rem] sm:h-12 sm:w-12"
           priority
         />
       </span>
-      <span className="flex flex-col">
+      <span className="flex min-w-0 flex-col">
         <span className="text-lg font-semibold tracking-[-0.04em] sm:text-xl">{brand.name}</span>
-        {showTagline ? <span className="text-sm text-muted">{tagline}</span> : null}
+        {showTagline ? <span className="max-w-[20rem] truncate text-sm text-muted">{tagline}</span> : null}
       </span>
     </span>
   );
 
   return (
-    <Link href={href} className="inline-flex items-center">
+    <Link href={href} className="inline-flex min-w-0 items-center">
       {content}
     </Link>
   );

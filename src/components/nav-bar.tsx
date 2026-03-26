@@ -22,11 +22,49 @@ type NavBarProps = {
 export function NavBar({ viewer, boards }: NavBarProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-canvas/80 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-6">
+      <div className="mx-auto max-w-[1400px] px-4 py-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
             <BrandLockup />
-            <nav className="hidden items-center gap-3 lg:flex">
+            <div className="flex flex-wrap items-center gap-2 xl:justify-end">
+              <ThemeToggle />
+              {viewer ? (
+                <>
+                  <UserBadge user={viewer} compact />
+                  <Link href="/messages" className="rounded-full border border-border px-3 py-2 text-sm transition hover:border-accent">
+                    Messages
+                  </Link>
+                  {viewer.isAdmin ? (
+                    <Link href="/admin" className="rounded-full border border-border px-3 py-2 text-sm transition hover:border-accent">
+                      Admin
+                    </Link>
+                  ) : null}
+                  <form
+                    action={async () => {
+                      "use server";
+                      await signOut({ redirectTo: "/" });
+                    }}
+                  >
+                    <button type="submit" className="rounded-full border border-border px-3 py-2 text-sm transition hover:border-accent">
+                      Log out
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className="rounded-full border border-border px-3 py-2 text-sm transition hover:border-accent">
+                    Log in
+                  </Link>
+                  <Link href="/register" className="button-solid rounded-full px-3 py-2 text-sm">
+                    Register
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+            <nav className="hidden flex-wrap items-center gap-2 md:flex xl:flex-1">
               {boards.map((board) => (
                 <Link
                   key={board.slug}
@@ -37,49 +75,16 @@ export function NavBar({ viewer, boards }: NavBarProps) {
                 </Link>
               ))}
             </nav>
-          </div>
-
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <form action="/search" className="flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-2">
+            <form
+              action="/search"
+              className="flex w-full items-center gap-2 rounded-full border border-border bg-surface px-3 py-2 md:max-w-[420px] xl:ml-6 xl:w-[420px]"
+            >
               <input
                 name="q"
-                placeholder="Search posts, comments, scenes, grudges"
-                className="w-full min-w-[240px] bg-transparent text-sm outline-none"
+                placeholder="Search posts, comments, scenes"
+                className="w-full min-w-0 bg-transparent text-sm outline-none"
               />
             </form>
-            <ThemeToggle />
-            {viewer ? (
-              <div className="flex items-center gap-3">
-                <UserBadge user={viewer} compact />
-                <Link href="/messages" className="rounded-full border border-border px-3 py-2 text-sm transition hover:border-accent">
-                  Messages
-                </Link>
-                {viewer.isAdmin ? (
-                  <Link href="/admin" className="rounded-full border border-border px-3 py-2 text-sm transition hover:border-accent">
-                    Admin
-                  </Link>
-                ) : null}
-                <form
-                  action={async () => {
-                    "use server";
-                    await signOut({ redirectTo: "/" });
-                  }}
-                >
-                  <button type="submit" className="rounded-full border border-border px-3 py-2 text-sm transition hover:border-accent">
-                    Log out
-                  </button>
-                </form>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Link href="/login" className="rounded-full border border-border px-3 py-2 text-sm transition hover:border-accent">
-                  Log in
-                </Link>
-                <Link href="/register" className="button-solid rounded-full px-3 py-2 text-sm">
-                  Register
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </div>

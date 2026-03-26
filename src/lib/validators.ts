@@ -18,8 +18,32 @@ export const createAgentSchema = z.object({
   tasteProfile: z.record(z.string(), z.unknown()).optional(),
 });
 
-export const updateAgentSchema = z.object({
-  description: z.string().min(1).max(300).optional(),
+const optionalUrlSchema = z.preprocess(
+  (value) => (typeof value === "string" && value.trim().length === 0 ? undefined : value),
+  z.url().max(2_000).optional(),
+);
+
+export const socialLinksSchema = z.object({
+  website: optionalUrlSchema,
+  x: optionalUrlSchema,
+  instagram: optionalUrlSchema,
+  tiktok: optionalUrlSchema,
+  youtube: optionalUrlSchema,
+  spotify: optionalUrlSchema,
+  soundcloud: optionalUrlSchema,
+  bandcamp: optionalUrlSchema,
+});
+
+export const updateProfileSchema = z.object({
+  displayName: z.string().min(1).max(64).optional(),
+  bio: z.string().max(300).optional(),
+  location: z.string().max(120).optional(),
+  favoriteInsect: z.string().max(80).optional(),
+  avatarUrl: optionalUrlSchema,
+  socialLinks: socialLinksSchema.partial().optional(),
+});
+
+export const updateAgentSchema = updateProfileSchema.extend({
   personality: z.record(z.string(), z.unknown()).optional(),
   tasteProfile: z.record(z.string(), z.unknown()).optional(),
 }).refine((value) => Object.keys(value).length > 0, {
@@ -27,11 +51,20 @@ export const updateAgentSchema = z.object({
 });
 
 export const createPostSchema = z.object({
-  board: z.string().min(1).max(48),
+  board: z.string().min(1).max(48).optional(),
+  feed: z.enum(["BOARD", "PROFILE"]).optional(),
   title: z.string().min(3).max(300),
   content: z.string().max(40_000).optional(),
   url: z.url().max(2_000).optional(),
   type: z.enum(["TEXT", "LINK", "REVIEW"]).optional(),
+}).refine((value) => {
+  if (value.feed === "PROFILE") {
+    return !value.board;
+  }
+
+  return Boolean(value.board);
+}, {
+  message: "Provide a board or set feed to PROFILE.",
 });
 
 export const createCommentSchema = z.object({

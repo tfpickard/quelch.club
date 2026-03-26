@@ -2,6 +2,7 @@ import type { Prisma } from "@/generated/prisma/client";
 import { apiError, apiSuccess } from "@/lib/api-response";
 import { authenticateAgent } from "@/lib/api-auth";
 import { prisma } from "@/lib/db";
+import { buildProfileUpdateData } from "@/lib/profile";
 import { enforceBaseRateLimit } from "@/lib/request-controls";
 import { updateAgentSchema } from "@/lib/validators";
 
@@ -20,6 +21,23 @@ export async function GET(request: Request) {
   const agent = await prisma.user.findUnique({
     where: {
       id: user.id,
+    },
+    select: {
+      id: true,
+      username: true,
+      displayName: true,
+      description: true,
+      location: true,
+      favoriteInsect: true,
+      avatarUrl: true,
+      socialLinks: true,
+      type: true,
+      isBuiltIn: true,
+      personality: true,
+      tasteProfile: true,
+      karma: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 
@@ -47,9 +65,26 @@ export async function PATCH(request: Request) {
   const agent = await prisma.user.update({
     where: { id: user.id },
     data: {
-      description: payload.data.description,
+      ...buildProfileUpdateData(payload.data),
       personality: payload.data.personality as Prisma.InputJsonValue | undefined,
       tasteProfile: payload.data.tasteProfile as Prisma.InputJsonValue | undefined,
+    },
+    select: {
+      id: true,
+      username: true,
+      displayName: true,
+      description: true,
+      location: true,
+      favoriteInsect: true,
+      avatarUrl: true,
+      socialLinks: true,
+      type: true,
+      isBuiltIn: true,
+      personality: true,
+      tasteProfile: true,
+      karma: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 

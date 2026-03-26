@@ -48,6 +48,7 @@ export type PostMinAggregateOutputType = {
   type: $Enums.PostType | null
   boardId: string | null
   authorId: string | null
+  profileOwnerId: string | null
   upvotes: number | null
   downvotes: number | null
   score: number | null
@@ -65,6 +66,7 @@ export type PostMaxAggregateOutputType = {
   type: $Enums.PostType | null
   boardId: string | null
   authorId: string | null
+  profileOwnerId: string | null
   upvotes: number | null
   downvotes: number | null
   score: number | null
@@ -82,6 +84,7 @@ export type PostCountAggregateOutputType = {
   type: number
   boardId: number
   authorId: number
+  profileOwnerId: number
   upvotes: number
   downvotes: number
   score: number
@@ -116,6 +119,7 @@ export type PostMinAggregateInputType = {
   type?: true
   boardId?: true
   authorId?: true
+  profileOwnerId?: true
   upvotes?: true
   downvotes?: true
   score?: true
@@ -133,6 +137,7 @@ export type PostMaxAggregateInputType = {
   type?: true
   boardId?: true
   authorId?: true
+  profileOwnerId?: true
   upvotes?: true
   downvotes?: true
   score?: true
@@ -150,6 +155,7 @@ export type PostCountAggregateInputType = {
   type?: true
   boardId?: true
   authorId?: true
+  profileOwnerId?: true
   upvotes?: true
   downvotes?: true
   score?: true
@@ -253,8 +259,9 @@ export type PostGroupByOutputType = {
   content: string | null
   url: string | null
   type: $Enums.PostType
-  boardId: string
+  boardId: string | null
   authorId: string
+  profileOwnerId: string | null
   upvotes: number
   downvotes: number
   score: number
@@ -294,8 +301,9 @@ export type PostWhereInput = {
   content?: Prisma.StringNullableFilter<"Post"> | string | null
   url?: Prisma.StringNullableFilter<"Post"> | string | null
   type?: Prisma.EnumPostTypeFilter<"Post"> | $Enums.PostType
-  boardId?: Prisma.UuidFilter<"Post"> | string
+  boardId?: Prisma.UuidNullableFilter<"Post"> | string | null
   authorId?: Prisma.UuidFilter<"Post"> | string
+  profileOwnerId?: Prisma.UuidNullableFilter<"Post"> | string | null
   upvotes?: Prisma.IntFilter<"Post"> | number
   downvotes?: Prisma.IntFilter<"Post"> | number
   score?: Prisma.IntFilter<"Post"> | number
@@ -304,10 +312,12 @@ export type PostWhereInput = {
   musicMeta?: Prisma.JsonNullableFilter<"Post">
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
-  board?: Prisma.XOR<Prisma.BoardScalarRelationFilter, Prisma.BoardWhereInput>
+  board?: Prisma.XOR<Prisma.BoardNullableScalarRelationFilter, Prisma.BoardWhereInput> | null
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  profileOwner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   comments?: Prisma.CommentListRelationFilter
   votes?: Prisma.VoteListRelationFilter
+  savedBy?: Prisma.SavedPostListRelationFilter
 }
 
 export type PostOrderByWithRelationInput = {
@@ -316,8 +326,9 @@ export type PostOrderByWithRelationInput = {
   content?: Prisma.SortOrderInput | Prisma.SortOrder
   url?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
-  boardId?: Prisma.SortOrder
+  boardId?: Prisma.SortOrderInput | Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  profileOwnerId?: Prisma.SortOrderInput | Prisma.SortOrder
   upvotes?: Prisma.SortOrder
   downvotes?: Prisma.SortOrder
   score?: Prisma.SortOrder
@@ -328,8 +339,10 @@ export type PostOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   board?: Prisma.BoardOrderByWithRelationInput
   author?: Prisma.UserOrderByWithRelationInput
+  profileOwner?: Prisma.UserOrderByWithRelationInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
   votes?: Prisma.VoteOrderByRelationAggregateInput
+  savedBy?: Prisma.SavedPostOrderByRelationAggregateInput
 }
 
 export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -341,8 +354,9 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   content?: Prisma.StringNullableFilter<"Post"> | string | null
   url?: Prisma.StringNullableFilter<"Post"> | string | null
   type?: Prisma.EnumPostTypeFilter<"Post"> | $Enums.PostType
-  boardId?: Prisma.UuidFilter<"Post"> | string
+  boardId?: Prisma.UuidNullableFilter<"Post"> | string | null
   authorId?: Prisma.UuidFilter<"Post"> | string
+  profileOwnerId?: Prisma.UuidNullableFilter<"Post"> | string | null
   upvotes?: Prisma.IntFilter<"Post"> | number
   downvotes?: Prisma.IntFilter<"Post"> | number
   score?: Prisma.IntFilter<"Post"> | number
@@ -351,10 +365,12 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   musicMeta?: Prisma.JsonNullableFilter<"Post">
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
-  board?: Prisma.XOR<Prisma.BoardScalarRelationFilter, Prisma.BoardWhereInput>
+  board?: Prisma.XOR<Prisma.BoardNullableScalarRelationFilter, Prisma.BoardWhereInput> | null
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  profileOwner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   comments?: Prisma.CommentListRelationFilter
   votes?: Prisma.VoteListRelationFilter
+  savedBy?: Prisma.SavedPostListRelationFilter
 }, "id">
 
 export type PostOrderByWithAggregationInput = {
@@ -363,8 +379,9 @@ export type PostOrderByWithAggregationInput = {
   content?: Prisma.SortOrderInput | Prisma.SortOrder
   url?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
-  boardId?: Prisma.SortOrder
+  boardId?: Prisma.SortOrderInput | Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  profileOwnerId?: Prisma.SortOrderInput | Prisma.SortOrder
   upvotes?: Prisma.SortOrder
   downvotes?: Prisma.SortOrder
   score?: Prisma.SortOrder
@@ -389,8 +406,9 @@ export type PostScalarWhereWithAggregatesInput = {
   content?: Prisma.StringNullableWithAggregatesFilter<"Post"> | string | null
   url?: Prisma.StringNullableWithAggregatesFilter<"Post"> | string | null
   type?: Prisma.EnumPostTypeWithAggregatesFilter<"Post"> | $Enums.PostType
-  boardId?: Prisma.UuidWithAggregatesFilter<"Post"> | string
+  boardId?: Prisma.UuidNullableWithAggregatesFilter<"Post"> | string | null
   authorId?: Prisma.UuidWithAggregatesFilter<"Post"> | string
+  profileOwnerId?: Prisma.UuidNullableWithAggregatesFilter<"Post"> | string | null
   upvotes?: Prisma.IntWithAggregatesFilter<"Post"> | number
   downvotes?: Prisma.IntWithAggregatesFilter<"Post"> | number
   score?: Prisma.IntWithAggregatesFilter<"Post"> | number
@@ -415,10 +433,12 @@ export type PostCreateInput = {
   musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  board: Prisma.BoardCreateNestedOneWithoutPostsInput
+  board?: Prisma.BoardCreateNestedOneWithoutPostsInput
   author: Prisma.UserCreateNestedOneWithoutPostsInput
+  profileOwner?: Prisma.UserCreateNestedOneWithoutProfileFeedPostsInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
   votes?: Prisma.VoteCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateInput = {
@@ -427,8 +447,9 @@ export type PostUncheckedCreateInput = {
   content?: string | null
   url?: string | null
   type: $Enums.PostType
-  boardId: string
+  boardId?: string | null
   authorId: string
+  profileOwnerId?: string | null
   upvotes?: number
   downvotes?: number
   score?: number
@@ -439,6 +460,7 @@ export type PostUncheckedCreateInput = {
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostUpdateInput = {
@@ -455,10 +477,12 @@ export type PostUpdateInput = {
   musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  board?: Prisma.BoardUpdateOneRequiredWithoutPostsNestedInput
+  board?: Prisma.BoardUpdateOneWithoutPostsNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
+  profileOwner?: Prisma.UserUpdateOneWithoutProfileFeedPostsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
   votes?: Prisma.VoteUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateInput = {
@@ -467,8 +491,9 @@ export type PostUncheckedUpdateInput = {
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
-  boardId?: Prisma.StringFieldUpdateOperationsInput | string
+  boardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  profileOwnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upvotes?: Prisma.IntFieldUpdateOperationsInput | number
   downvotes?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
@@ -479,6 +504,7 @@ export type PostUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostCreateManyInput = {
@@ -487,8 +513,9 @@ export type PostCreateManyInput = {
   content?: string | null
   url?: string | null
   type: $Enums.PostType
-  boardId: string
+  boardId?: string | null
   authorId: string
+  profileOwnerId?: string | null
   upvotes?: number
   downvotes?: number
   score?: number
@@ -521,8 +548,9 @@ export type PostUncheckedUpdateManyInput = {
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
-  boardId?: Prisma.StringFieldUpdateOperationsInput | string
+  boardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  profileOwnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upvotes?: Prisma.IntFieldUpdateOperationsInput | number
   downvotes?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
@@ -551,6 +579,7 @@ export type PostCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   boardId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  profileOwnerId?: Prisma.SortOrder
   upvotes?: Prisma.SortOrder
   downvotes?: Prisma.SortOrder
   score?: Prisma.SortOrder
@@ -576,6 +605,7 @@ export type PostMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   boardId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  profileOwnerId?: Prisma.SortOrder
   upvotes?: Prisma.SortOrder
   downvotes?: Prisma.SortOrder
   score?: Prisma.SortOrder
@@ -593,6 +623,7 @@ export type PostMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   boardId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  profileOwnerId?: Prisma.SortOrder
   upvotes?: Prisma.SortOrder
   downvotes?: Prisma.SortOrder
   score?: Prisma.SortOrder
@@ -626,10 +657,24 @@ export type PostCreateNestedManyWithoutAuthorInput = {
   connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
 }
 
+export type PostCreateNestedManyWithoutProfileOwnerInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutProfileOwnerInput, Prisma.PostUncheckedCreateWithoutProfileOwnerInput> | Prisma.PostCreateWithoutProfileOwnerInput[] | Prisma.PostUncheckedCreateWithoutProfileOwnerInput[]
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutProfileOwnerInput | Prisma.PostCreateOrConnectWithoutProfileOwnerInput[]
+  createMany?: Prisma.PostCreateManyProfileOwnerInputEnvelope
+  connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
+}
+
 export type PostUncheckedCreateNestedManyWithoutAuthorInput = {
   create?: Prisma.XOR<Prisma.PostCreateWithoutAuthorInput, Prisma.PostUncheckedCreateWithoutAuthorInput> | Prisma.PostCreateWithoutAuthorInput[] | Prisma.PostUncheckedCreateWithoutAuthorInput[]
   connectOrCreate?: Prisma.PostCreateOrConnectWithoutAuthorInput | Prisma.PostCreateOrConnectWithoutAuthorInput[]
   createMany?: Prisma.PostCreateManyAuthorInputEnvelope
+  connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
+}
+
+export type PostUncheckedCreateNestedManyWithoutProfileOwnerInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutProfileOwnerInput, Prisma.PostUncheckedCreateWithoutProfileOwnerInput> | Prisma.PostCreateWithoutProfileOwnerInput[] | Prisma.PostUncheckedCreateWithoutProfileOwnerInput[]
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutProfileOwnerInput | Prisma.PostCreateOrConnectWithoutProfileOwnerInput[]
+  createMany?: Prisma.PostCreateManyProfileOwnerInputEnvelope
   connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
 }
 
@@ -647,6 +692,20 @@ export type PostUpdateManyWithoutAuthorNestedInput = {
   deleteMany?: Prisma.PostScalarWhereInput | Prisma.PostScalarWhereInput[]
 }
 
+export type PostUpdateManyWithoutProfileOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutProfileOwnerInput, Prisma.PostUncheckedCreateWithoutProfileOwnerInput> | Prisma.PostCreateWithoutProfileOwnerInput[] | Prisma.PostUncheckedCreateWithoutProfileOwnerInput[]
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutProfileOwnerInput | Prisma.PostCreateOrConnectWithoutProfileOwnerInput[]
+  upsert?: Prisma.PostUpsertWithWhereUniqueWithoutProfileOwnerInput | Prisma.PostUpsertWithWhereUniqueWithoutProfileOwnerInput[]
+  createMany?: Prisma.PostCreateManyProfileOwnerInputEnvelope
+  set?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
+  disconnect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
+  delete?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
+  connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
+  update?: Prisma.PostUpdateWithWhereUniqueWithoutProfileOwnerInput | Prisma.PostUpdateWithWhereUniqueWithoutProfileOwnerInput[]
+  updateMany?: Prisma.PostUpdateManyWithWhereWithoutProfileOwnerInput | Prisma.PostUpdateManyWithWhereWithoutProfileOwnerInput[]
+  deleteMany?: Prisma.PostScalarWhereInput | Prisma.PostScalarWhereInput[]
+}
+
 export type PostUncheckedUpdateManyWithoutAuthorNestedInput = {
   create?: Prisma.XOR<Prisma.PostCreateWithoutAuthorInput, Prisma.PostUncheckedCreateWithoutAuthorInput> | Prisma.PostCreateWithoutAuthorInput[] | Prisma.PostUncheckedCreateWithoutAuthorInput[]
   connectOrCreate?: Prisma.PostCreateOrConnectWithoutAuthorInput | Prisma.PostCreateOrConnectWithoutAuthorInput[]
@@ -658,6 +717,20 @@ export type PostUncheckedUpdateManyWithoutAuthorNestedInput = {
   connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
   update?: Prisma.PostUpdateWithWhereUniqueWithoutAuthorInput | Prisma.PostUpdateWithWhereUniqueWithoutAuthorInput[]
   updateMany?: Prisma.PostUpdateManyWithWhereWithoutAuthorInput | Prisma.PostUpdateManyWithWhereWithoutAuthorInput[]
+  deleteMany?: Prisma.PostScalarWhereInput | Prisma.PostScalarWhereInput[]
+}
+
+export type PostUncheckedUpdateManyWithoutProfileOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutProfileOwnerInput, Prisma.PostUncheckedCreateWithoutProfileOwnerInput> | Prisma.PostCreateWithoutProfileOwnerInput[] | Prisma.PostUncheckedCreateWithoutProfileOwnerInput[]
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutProfileOwnerInput | Prisma.PostCreateOrConnectWithoutProfileOwnerInput[]
+  upsert?: Prisma.PostUpsertWithWhereUniqueWithoutProfileOwnerInput | Prisma.PostUpsertWithWhereUniqueWithoutProfileOwnerInput[]
+  createMany?: Prisma.PostCreateManyProfileOwnerInputEnvelope
+  set?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
+  disconnect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
+  delete?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
+  connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
+  update?: Prisma.PostUpdateWithWhereUniqueWithoutProfileOwnerInput | Prisma.PostUpdateWithWhereUniqueWithoutProfileOwnerInput[]
+  updateMany?: Prisma.PostUpdateManyWithWhereWithoutProfileOwnerInput | Prisma.PostUpdateManyWithWhereWithoutProfileOwnerInput[]
   deleteMany?: Prisma.PostScalarWhereInput | Prisma.PostScalarWhereInput[]
 }
 
@@ -737,6 +810,20 @@ export type PostUpdateOneWithoutVotesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PostUpdateToOneWithWhereWithoutVotesInput, Prisma.PostUpdateWithoutVotesInput>, Prisma.PostUncheckedUpdateWithoutVotesInput>
 }
 
+export type PostCreateNestedOneWithoutSavedByInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutSavedByInput, Prisma.PostUncheckedCreateWithoutSavedByInput>
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutSavedByInput
+  connect?: Prisma.PostWhereUniqueInput
+}
+
+export type PostUpdateOneRequiredWithoutSavedByNestedInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutSavedByInput, Prisma.PostUncheckedCreateWithoutSavedByInput>
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutSavedByInput
+  upsert?: Prisma.PostUpsertWithoutSavedByInput
+  connect?: Prisma.PostWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PostUpdateToOneWithWhereWithoutSavedByInput, Prisma.PostUpdateWithoutSavedByInput>, Prisma.PostUncheckedUpdateWithoutSavedByInput>
+}
+
 export type PostCreateWithoutAuthorInput = {
   id?: string
   title: string
@@ -751,9 +838,11 @@ export type PostCreateWithoutAuthorInput = {
   musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  board: Prisma.BoardCreateNestedOneWithoutPostsInput
+  board?: Prisma.BoardCreateNestedOneWithoutPostsInput
+  profileOwner?: Prisma.UserCreateNestedOneWithoutProfileFeedPostsInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
   votes?: Prisma.VoteCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutAuthorInput = {
@@ -762,7 +851,8 @@ export type PostUncheckedCreateWithoutAuthorInput = {
   content?: string | null
   url?: string | null
   type: $Enums.PostType
-  boardId: string
+  boardId?: string | null
+  profileOwnerId?: string | null
   upvotes?: number
   downvotes?: number
   score?: number
@@ -773,6 +863,7 @@ export type PostUncheckedCreateWithoutAuthorInput = {
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostCreateOrConnectWithoutAuthorInput = {
@@ -782,6 +873,58 @@ export type PostCreateOrConnectWithoutAuthorInput = {
 
 export type PostCreateManyAuthorInputEnvelope = {
   data: Prisma.PostCreateManyAuthorInput | Prisma.PostCreateManyAuthorInput[]
+  skipDuplicates?: boolean
+}
+
+export type PostCreateWithoutProfileOwnerInput = {
+  id?: string
+  title: string
+  content?: string | null
+  url?: string | null
+  type: $Enums.PostType
+  upvotes?: number
+  downvotes?: number
+  score?: number
+  commentCount?: number
+  isPinned?: boolean
+  musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  board?: Prisma.BoardCreateNestedOneWithoutPostsInput
+  author: Prisma.UserCreateNestedOneWithoutPostsInput
+  comments?: Prisma.CommentCreateNestedManyWithoutPostInput
+  votes?: Prisma.VoteCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostCreateNestedManyWithoutPostInput
+}
+
+export type PostUncheckedCreateWithoutProfileOwnerInput = {
+  id?: string
+  title: string
+  content?: string | null
+  url?: string | null
+  type: $Enums.PostType
+  boardId?: string | null
+  authorId: string
+  upvotes?: number
+  downvotes?: number
+  score?: number
+  commentCount?: number
+  isPinned?: boolean
+  musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
+  votes?: Prisma.VoteUncheckedCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostUncheckedCreateNestedManyWithoutPostInput
+}
+
+export type PostCreateOrConnectWithoutProfileOwnerInput = {
+  where: Prisma.PostWhereUniqueInput
+  create: Prisma.XOR<Prisma.PostCreateWithoutProfileOwnerInput, Prisma.PostUncheckedCreateWithoutProfileOwnerInput>
+}
+
+export type PostCreateManyProfileOwnerInputEnvelope = {
+  data: Prisma.PostCreateManyProfileOwnerInput | Prisma.PostCreateManyProfileOwnerInput[]
   skipDuplicates?: boolean
 }
 
@@ -810,8 +953,9 @@ export type PostScalarWhereInput = {
   content?: Prisma.StringNullableFilter<"Post"> | string | null
   url?: Prisma.StringNullableFilter<"Post"> | string | null
   type?: Prisma.EnumPostTypeFilter<"Post"> | $Enums.PostType
-  boardId?: Prisma.UuidFilter<"Post"> | string
+  boardId?: Prisma.UuidNullableFilter<"Post"> | string | null
   authorId?: Prisma.UuidFilter<"Post"> | string
+  profileOwnerId?: Prisma.UuidNullableFilter<"Post"> | string | null
   upvotes?: Prisma.IntFilter<"Post"> | number
   downvotes?: Prisma.IntFilter<"Post"> | number
   score?: Prisma.IntFilter<"Post"> | number
@@ -820,6 +964,22 @@ export type PostScalarWhereInput = {
   musicMeta?: Prisma.JsonNullableFilter<"Post">
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
+}
+
+export type PostUpsertWithWhereUniqueWithoutProfileOwnerInput = {
+  where: Prisma.PostWhereUniqueInput
+  update: Prisma.XOR<Prisma.PostUpdateWithoutProfileOwnerInput, Prisma.PostUncheckedUpdateWithoutProfileOwnerInput>
+  create: Prisma.XOR<Prisma.PostCreateWithoutProfileOwnerInput, Prisma.PostUncheckedCreateWithoutProfileOwnerInput>
+}
+
+export type PostUpdateWithWhereUniqueWithoutProfileOwnerInput = {
+  where: Prisma.PostWhereUniqueInput
+  data: Prisma.XOR<Prisma.PostUpdateWithoutProfileOwnerInput, Prisma.PostUncheckedUpdateWithoutProfileOwnerInput>
+}
+
+export type PostUpdateManyWithWhereWithoutProfileOwnerInput = {
+  where: Prisma.PostScalarWhereInput
+  data: Prisma.XOR<Prisma.PostUpdateManyMutationInput, Prisma.PostUncheckedUpdateManyWithoutProfileOwnerInput>
 }
 
 export type PostCreateWithoutBoardInput = {
@@ -837,8 +997,10 @@ export type PostCreateWithoutBoardInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutPostsInput
+  profileOwner?: Prisma.UserCreateNestedOneWithoutProfileFeedPostsInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
   votes?: Prisma.VoteCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutBoardInput = {
@@ -848,6 +1010,7 @@ export type PostUncheckedCreateWithoutBoardInput = {
   url?: string | null
   type: $Enums.PostType
   authorId: string
+  profileOwnerId?: string | null
   upvotes?: number
   downvotes?: number
   score?: number
@@ -858,6 +1021,7 @@ export type PostUncheckedCreateWithoutBoardInput = {
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostCreateOrConnectWithoutBoardInput = {
@@ -900,9 +1064,11 @@ export type PostCreateWithoutCommentsInput = {
   musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  board: Prisma.BoardCreateNestedOneWithoutPostsInput
+  board?: Prisma.BoardCreateNestedOneWithoutPostsInput
   author: Prisma.UserCreateNestedOneWithoutPostsInput
+  profileOwner?: Prisma.UserCreateNestedOneWithoutProfileFeedPostsInput
   votes?: Prisma.VoteCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutCommentsInput = {
@@ -911,8 +1077,9 @@ export type PostUncheckedCreateWithoutCommentsInput = {
   content?: string | null
   url?: string | null
   type: $Enums.PostType
-  boardId: string
+  boardId?: string | null
   authorId: string
+  profileOwnerId?: string | null
   upvotes?: number
   downvotes?: number
   score?: number
@@ -922,6 +1089,7 @@ export type PostUncheckedCreateWithoutCommentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostCreateOrConnectWithoutCommentsInput = {
@@ -954,9 +1122,11 @@ export type PostUpdateWithoutCommentsInput = {
   musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  board?: Prisma.BoardUpdateOneRequiredWithoutPostsNestedInput
+  board?: Prisma.BoardUpdateOneWithoutPostsNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
+  profileOwner?: Prisma.UserUpdateOneWithoutProfileFeedPostsNestedInput
   votes?: Prisma.VoteUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutCommentsInput = {
@@ -965,8 +1135,9 @@ export type PostUncheckedUpdateWithoutCommentsInput = {
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
-  boardId?: Prisma.StringFieldUpdateOperationsInput | string
+  boardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  profileOwnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upvotes?: Prisma.IntFieldUpdateOperationsInput | number
   downvotes?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
@@ -976,6 +1147,7 @@ export type PostUncheckedUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   votes?: Prisma.VoteUncheckedUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostCreateWithoutVotesInput = {
@@ -992,9 +1164,11 @@ export type PostCreateWithoutVotesInput = {
   musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  board: Prisma.BoardCreateNestedOneWithoutPostsInput
+  board?: Prisma.BoardCreateNestedOneWithoutPostsInput
   author: Prisma.UserCreateNestedOneWithoutPostsInput
+  profileOwner?: Prisma.UserCreateNestedOneWithoutProfileFeedPostsInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutVotesInput = {
@@ -1003,8 +1177,9 @@ export type PostUncheckedCreateWithoutVotesInput = {
   content?: string | null
   url?: string | null
   type: $Enums.PostType
-  boardId: string
+  boardId?: string | null
   authorId: string
+  profileOwnerId?: string | null
   upvotes?: number
   downvotes?: number
   score?: number
@@ -1014,6 +1189,7 @@ export type PostUncheckedCreateWithoutVotesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
+  savedBy?: Prisma.SavedPostUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostCreateOrConnectWithoutVotesInput = {
@@ -1046,9 +1222,11 @@ export type PostUpdateWithoutVotesInput = {
   musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  board?: Prisma.BoardUpdateOneRequiredWithoutPostsNestedInput
+  board?: Prisma.BoardUpdateOneWithoutPostsNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
+  profileOwner?: Prisma.UserUpdateOneWithoutProfileFeedPostsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutVotesInput = {
@@ -1057,8 +1235,9 @@ export type PostUncheckedUpdateWithoutVotesInput = {
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
-  boardId?: Prisma.StringFieldUpdateOperationsInput | string
+  boardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  profileOwnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upvotes?: Prisma.IntFieldUpdateOperationsInput | number
   downvotes?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1068,6 +1247,107 @@ export type PostUncheckedUpdateWithoutVotesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUncheckedUpdateManyWithoutPostNestedInput
+}
+
+export type PostCreateWithoutSavedByInput = {
+  id?: string
+  title: string
+  content?: string | null
+  url?: string | null
+  type: $Enums.PostType
+  upvotes?: number
+  downvotes?: number
+  score?: number
+  commentCount?: number
+  isPinned?: boolean
+  musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  board?: Prisma.BoardCreateNestedOneWithoutPostsInput
+  author: Prisma.UserCreateNestedOneWithoutPostsInput
+  profileOwner?: Prisma.UserCreateNestedOneWithoutProfileFeedPostsInput
+  comments?: Prisma.CommentCreateNestedManyWithoutPostInput
+  votes?: Prisma.VoteCreateNestedManyWithoutPostInput
+}
+
+export type PostUncheckedCreateWithoutSavedByInput = {
+  id?: string
+  title: string
+  content?: string | null
+  url?: string | null
+  type: $Enums.PostType
+  boardId?: string | null
+  authorId: string
+  profileOwnerId?: string | null
+  upvotes?: number
+  downvotes?: number
+  score?: number
+  commentCount?: number
+  isPinned?: boolean
+  musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
+  votes?: Prisma.VoteUncheckedCreateNestedManyWithoutPostInput
+}
+
+export type PostCreateOrConnectWithoutSavedByInput = {
+  where: Prisma.PostWhereUniqueInput
+  create: Prisma.XOR<Prisma.PostCreateWithoutSavedByInput, Prisma.PostUncheckedCreateWithoutSavedByInput>
+}
+
+export type PostUpsertWithoutSavedByInput = {
+  update: Prisma.XOR<Prisma.PostUpdateWithoutSavedByInput, Prisma.PostUncheckedUpdateWithoutSavedByInput>
+  create: Prisma.XOR<Prisma.PostCreateWithoutSavedByInput, Prisma.PostUncheckedCreateWithoutSavedByInput>
+  where?: Prisma.PostWhereInput
+}
+
+export type PostUpdateToOneWithWhereWithoutSavedByInput = {
+  where?: Prisma.PostWhereInput
+  data: Prisma.XOR<Prisma.PostUpdateWithoutSavedByInput, Prisma.PostUncheckedUpdateWithoutSavedByInput>
+}
+
+export type PostUpdateWithoutSavedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
+  upvotes?: Prisma.IntFieldUpdateOperationsInput | number
+  downvotes?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  board?: Prisma.BoardUpdateOneWithoutPostsNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
+  profileOwner?: Prisma.UserUpdateOneWithoutProfileFeedPostsNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
+  votes?: Prisma.VoteUpdateManyWithoutPostNestedInput
+}
+
+export type PostUncheckedUpdateWithoutSavedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
+  boardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  profileOwnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upvotes?: Prisma.IntFieldUpdateOperationsInput | number
+  downvotes?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
+  votes?: Prisma.VoteUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostCreateManyAuthorInput = {
@@ -1076,7 +1356,26 @@ export type PostCreateManyAuthorInput = {
   content?: string | null
   url?: string | null
   type: $Enums.PostType
-  boardId: string
+  boardId?: string | null
+  profileOwnerId?: string | null
+  upvotes?: number
+  downvotes?: number
+  score?: number
+  commentCount?: number
+  isPinned?: boolean
+  musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PostCreateManyProfileOwnerInput = {
+  id?: string
+  title: string
+  content?: string | null
+  url?: string | null
+  type: $Enums.PostType
+  boardId?: string | null
+  authorId: string
   upvotes?: number
   downvotes?: number
   score?: number
@@ -1101,9 +1400,11 @@ export type PostUpdateWithoutAuthorInput = {
   musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  board?: Prisma.BoardUpdateOneRequiredWithoutPostsNestedInput
+  board?: Prisma.BoardUpdateOneWithoutPostsNestedInput
+  profileOwner?: Prisma.UserUpdateOneWithoutProfileFeedPostsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
   votes?: Prisma.VoteUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutAuthorInput = {
@@ -1112,7 +1413,8 @@ export type PostUncheckedUpdateWithoutAuthorInput = {
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
-  boardId?: Prisma.StringFieldUpdateOperationsInput | string
+  boardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileOwnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upvotes?: Prisma.IntFieldUpdateOperationsInput | number
   downvotes?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1123,6 +1425,7 @@ export type PostUncheckedUpdateWithoutAuthorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateManyWithoutAuthorInput = {
@@ -1131,7 +1434,68 @@ export type PostUncheckedUpdateManyWithoutAuthorInput = {
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
-  boardId?: Prisma.StringFieldUpdateOperationsInput | string
+  boardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileOwnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upvotes?: Prisma.IntFieldUpdateOperationsInput | number
+  downvotes?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PostUpdateWithoutProfileOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
+  upvotes?: Prisma.IntFieldUpdateOperationsInput | number
+  downvotes?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  board?: Prisma.BoardUpdateOneWithoutPostsNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
+  votes?: Prisma.VoteUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUpdateManyWithoutPostNestedInput
+}
+
+export type PostUncheckedUpdateWithoutProfileOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
+  boardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  upvotes?: Prisma.IntFieldUpdateOperationsInput | number
+  downvotes?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  musicMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
+  votes?: Prisma.VoteUncheckedUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUncheckedUpdateManyWithoutPostNestedInput
+}
+
+export type PostUncheckedUpdateManyWithoutProfileOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
+  boardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
   upvotes?: Prisma.IntFieldUpdateOperationsInput | number
   downvotes?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1149,6 +1513,7 @@ export type PostCreateManyBoardInput = {
   url?: string | null
   type: $Enums.PostType
   authorId: string
+  profileOwnerId?: string | null
   upvotes?: number
   downvotes?: number
   score?: number
@@ -1174,8 +1539,10 @@ export type PostUpdateWithoutBoardInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
+  profileOwner?: Prisma.UserUpdateOneWithoutProfileFeedPostsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
   votes?: Prisma.VoteUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutBoardInput = {
@@ -1185,6 +1552,7 @@ export type PostUncheckedUpdateWithoutBoardInput = {
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  profileOwnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upvotes?: Prisma.IntFieldUpdateOperationsInput | number
   downvotes?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1195,6 +1563,7 @@ export type PostUncheckedUpdateWithoutBoardInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutPostNestedInput
+  savedBy?: Prisma.SavedPostUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateManyWithoutBoardInput = {
@@ -1204,6 +1573,7 @@ export type PostUncheckedUpdateManyWithoutBoardInput = {
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  profileOwnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upvotes?: Prisma.IntFieldUpdateOperationsInput | number
   downvotes?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1222,11 +1592,13 @@ export type PostUncheckedUpdateManyWithoutBoardInput = {
 export type PostCountOutputType = {
   comments: number
   votes: number
+  savedBy: number
 }
 
 export type PostCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   comments?: boolean | PostCountOutputTypeCountCommentsArgs
   votes?: boolean | PostCountOutputTypeCountVotesArgs
+  savedBy?: boolean | PostCountOutputTypeCountSavedByArgs
 }
 
 /**
@@ -1253,6 +1625,13 @@ export type PostCountOutputTypeCountVotesArgs<ExtArgs extends runtime.Types.Exte
   where?: Prisma.VoteWhereInput
 }
 
+/**
+ * PostCountOutputType without action
+ */
+export type PostCountOutputTypeCountSavedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SavedPostWhereInput
+}
+
 
 export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1262,6 +1641,7 @@ export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   type?: boolean
   boardId?: boolean
   authorId?: boolean
+  profileOwnerId?: boolean
   upvotes?: boolean
   downvotes?: boolean
   score?: boolean
@@ -1270,10 +1650,12 @@ export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   musicMeta?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  board?: boolean | Prisma.BoardDefaultArgs<ExtArgs>
+  board?: boolean | Prisma.Post$boardArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  profileOwner?: boolean | Prisma.Post$profileOwnerArgs<ExtArgs>
   comments?: boolean | Prisma.Post$commentsArgs<ExtArgs>
   votes?: boolean | Prisma.Post$votesArgs<ExtArgs>
+  savedBy?: boolean | Prisma.Post$savedByArgs<ExtArgs>
   _count?: boolean | Prisma.PostCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
@@ -1285,6 +1667,7 @@ export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   type?: boolean
   boardId?: boolean
   authorId?: boolean
+  profileOwnerId?: boolean
   upvotes?: boolean
   downvotes?: boolean
   score?: boolean
@@ -1293,8 +1676,9 @@ export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   musicMeta?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  board?: boolean | Prisma.BoardDefaultArgs<ExtArgs>
+  board?: boolean | Prisma.Post$boardArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  profileOwner?: boolean | Prisma.Post$profileOwnerArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
 export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1305,6 +1689,7 @@ export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   type?: boolean
   boardId?: boolean
   authorId?: boolean
+  profileOwnerId?: boolean
   upvotes?: boolean
   downvotes?: boolean
   score?: boolean
@@ -1313,8 +1698,9 @@ export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   musicMeta?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  board?: boolean | Prisma.BoardDefaultArgs<ExtArgs>
+  board?: boolean | Prisma.Post$boardArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  profileOwner?: boolean | Prisma.Post$profileOwnerArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
 export type PostSelectScalar = {
@@ -1325,6 +1711,7 @@ export type PostSelectScalar = {
   type?: boolean
   boardId?: boolean
   authorId?: boolean
+  profileOwnerId?: boolean
   upvotes?: boolean
   downvotes?: boolean
   score?: boolean
@@ -1335,30 +1722,36 @@ export type PostSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "url" | "type" | "boardId" | "authorId" | "upvotes" | "downvotes" | "score" | "commentCount" | "isPinned" | "musicMeta" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "url" | "type" | "boardId" | "authorId" | "profileOwnerId" | "upvotes" | "downvotes" | "score" | "commentCount" | "isPinned" | "musicMeta" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
 export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  board?: boolean | Prisma.BoardDefaultArgs<ExtArgs>
+  board?: boolean | Prisma.Post$boardArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  profileOwner?: boolean | Prisma.Post$profileOwnerArgs<ExtArgs>
   comments?: boolean | Prisma.Post$commentsArgs<ExtArgs>
   votes?: boolean | Prisma.Post$votesArgs<ExtArgs>
+  savedBy?: boolean | Prisma.Post$savedByArgs<ExtArgs>
   _count?: boolean | Prisma.PostCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PostIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  board?: boolean | Prisma.BoardDefaultArgs<ExtArgs>
+  board?: boolean | Prisma.Post$boardArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  profileOwner?: boolean | Prisma.Post$profileOwnerArgs<ExtArgs>
 }
 export type PostIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  board?: boolean | Prisma.BoardDefaultArgs<ExtArgs>
+  board?: boolean | Prisma.Post$boardArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  profileOwner?: boolean | Prisma.Post$profileOwnerArgs<ExtArgs>
 }
 
 export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Post"
   objects: {
-    board: Prisma.$BoardPayload<ExtArgs>
+    board: Prisma.$BoardPayload<ExtArgs> | null
     author: Prisma.$UserPayload<ExtArgs>
+    profileOwner: Prisma.$UserPayload<ExtArgs> | null
     comments: Prisma.$CommentPayload<ExtArgs>[]
     votes: Prisma.$VotePayload<ExtArgs>[]
+    savedBy: Prisma.$SavedPostPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1366,8 +1759,9 @@ export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     content: string | null
     url: string | null
     type: $Enums.PostType
-    boardId: string
+    boardId: string | null
     authorId: string
+    profileOwnerId: string | null
     upvotes: number
     downvotes: number
     score: number
@@ -1770,10 +2164,12 @@ readonly fields: PostFieldRefs;
  */
 export interface Prisma__PostClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  board<T extends Prisma.BoardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BoardDefaultArgs<ExtArgs>>): Prisma.Prisma__BoardClient<runtime.Types.Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  board<T extends Prisma.Post$boardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$boardArgs<ExtArgs>>): Prisma.Prisma__BoardClient<runtime.Types.Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  profileOwner<T extends Prisma.Post$profileOwnerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$profileOwnerArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   comments<T extends Prisma.Post$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   votes<T extends Prisma.Post$votesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$votesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  savedBy<T extends Prisma.Post$savedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$savedByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1810,6 +2206,7 @@ export interface PostFieldRefs {
   readonly type: Prisma.FieldRef<"Post", 'PostType'>
   readonly boardId: Prisma.FieldRef<"Post", 'String'>
   readonly authorId: Prisma.FieldRef<"Post", 'String'>
+  readonly profileOwnerId: Prisma.FieldRef<"Post", 'String'>
   readonly upvotes: Prisma.FieldRef<"Post", 'Int'>
   readonly downvotes: Prisma.FieldRef<"Post", 'Int'>
   readonly score: Prisma.FieldRef<"Post", 'Int'>
@@ -2219,6 +2616,44 @@ export type PostDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Post.board
+ */
+export type Post$boardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Board
+   */
+  select?: Prisma.BoardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Board
+   */
+  omit?: Prisma.BoardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BoardInclude<ExtArgs> | null
+  where?: Prisma.BoardWhereInput
+}
+
+/**
+ * Post.profileOwner
+ */
+export type Post$profileOwnerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
  * Post.comments
  */
 export type Post$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2264,6 +2699,30 @@ export type Post$votesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.VoteScalarFieldEnum | Prisma.VoteScalarFieldEnum[]
+}
+
+/**
+ * Post.savedBy
+ */
+export type Post$savedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedPost
+   */
+  select?: Prisma.SavedPostSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedPost
+   */
+  omit?: Prisma.SavedPostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedPostInclude<ExtArgs> | null
+  where?: Prisma.SavedPostWhereInput
+  orderBy?: Prisma.SavedPostOrderByWithRelationInput | Prisma.SavedPostOrderByWithRelationInput[]
+  cursor?: Prisma.SavedPostWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SavedPostScalarFieldEnum | Prisma.SavedPostScalarFieldEnum[]
 }
 
 /**

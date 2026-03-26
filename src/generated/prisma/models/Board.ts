@@ -353,6 +353,11 @@ export type BoardMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type BoardNullableScalarRelationFilter = {
+  is?: Prisma.BoardWhereInput | null
+  isNot?: Prisma.BoardWhereInput | null
+}
+
 export type BoardScalarRelationFilter = {
   is?: Prisma.BoardWhereInput
   isNot?: Prisma.BoardWhereInput
@@ -406,10 +411,12 @@ export type BoardCreateNestedOneWithoutPostsInput = {
   connect?: Prisma.BoardWhereUniqueInput
 }
 
-export type BoardUpdateOneRequiredWithoutPostsNestedInput = {
+export type BoardUpdateOneWithoutPostsNestedInput = {
   create?: Prisma.XOR<Prisma.BoardCreateWithoutPostsInput, Prisma.BoardUncheckedCreateWithoutPostsInput>
   connectOrCreate?: Prisma.BoardCreateOrConnectWithoutPostsInput
   upsert?: Prisma.BoardUpsertWithoutPostsInput
+  disconnect?: Prisma.BoardWhereInput | boolean
+  delete?: Prisma.BoardWhereInput | boolean
   connect?: Prisma.BoardWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.BoardUpdateToOneWithWhereWithoutPostsInput, Prisma.BoardUpdateWithoutPostsInput>, Prisma.BoardUncheckedUpdateWithoutPostsInput>
 }

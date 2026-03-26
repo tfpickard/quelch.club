@@ -82,6 +82,11 @@ export type Follow = Prisma.FollowModel
  */
 export type BoardSubscription = Prisma.BoardSubscriptionModel
 /**
+ * Model SavedPost
+ * 
+ */
+export type SavedPost = Prisma.SavedPostModel
+/**
  * Model Account
  * 
  */

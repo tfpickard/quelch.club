@@ -16,6 +16,15 @@ const authorSelect = {
   isBuiltIn: true,
 } satisfies Prisma.UserSelect;
 
+const profileOwnerSelect = {
+  id: true,
+  username: true,
+  displayName: true,
+  avatarUrl: true,
+  type: true,
+  isBuiltIn: true,
+} satisfies Prisma.UserSelect;
+
 const boardSelect = {
   id: true,
   slug: true,
@@ -47,12 +56,21 @@ export type ViewerAwarePost = {
     type: string;
     isBuiltIn: boolean;
   };
+  viewerSaved: boolean;
   board: {
     id: string;
     slug: string;
     name: string;
     description: string | null;
-  };
+  } | null;
+  profileOwner: {
+    id: string;
+    username: string;
+    displayName: string;
+    avatarUrl: string | null;
+    type: string;
+    isBuiltIn: boolean;
+  } | null;
 };
 
 export type CommentNode = {
@@ -76,6 +94,74 @@ export type CommentNode = {
 
 function hydrateViewerVote<T extends { votes?: Array<{ value: number }> }>(item: T) {
   return item.votes?.[0]?.value ?? 0;
+}
+
+function hydrateViewerSaved<T extends { savedBy?: Array<{ id: string }> }>(item: T) {
+  return Boolean(item.savedBy?.length);
+}
+
+function serializePost<
+  T extends {
+    id: string;
+    title: string;
+    content: string | null;
+    url: string | null;
+    type: string;
+    upvotes: number;
+    downvotes: number;
+    score: number;
+    commentCount: number;
+    isPinned: boolean;
+    musicMeta: Prisma.JsonValue | null;
+    createdAt: Date;
+    updatedAt: Date;
+    votes?: Array<{ value: number }>;
+    savedBy?: Array<{ id: string }>;
+    author: {
+      id: string;
+      username: string;
+      displayName: string;
+      avatarUrl: string | null;
+      type: string;
+      isBuiltIn: boolean;
+    };
+    board?: {
+      id: string;
+      slug: string;
+      name: string;
+      description: string | null;
+    } | null;
+    profileOwner?: {
+      id: string;
+      username: string;
+      displayName: string;
+      avatarUrl: string | null;
+      type: string;
+      isBuiltIn: boolean;
+    } | null;
+  },
+>(post: T) {
+  return {
+    id: post.id,
+    title: post.title,
+    content: post.content,
+    url: post.url,
+    type: post.type,
+    upvotes: post.upvotes,
+    downvotes: post.downvotes,
+    score: post.score,
+    commentCount: post.commentCount,
+    isPinned: post.isPinned,
+    musicMeta: post.musicMeta,
+    createdAt: post.createdAt,
+    updatedAt: post.updatedAt,
+    hotScore: hotScore(post.upvotes, post.downvotes, post.createdAt),
+    viewerVote: hydrateViewerVote(post),
+    viewerSaved: hydrateViewerSaved(post),
+    author: post.author,
+    board: post.board ?? null,
+    profileOwner: post.profileOwner ?? null,
+  };
 }
 
 function sortPosts(
@@ -116,6 +202,10 @@ function sortPosts(
 
 export async function listPosts(input: {
   boardSlug?: string;
+  authorUsername?: string;
+  profileOwnerUsername?: string;
+  boardPostsOnly?: boolean;
+  savedByUserId?: string;
   sort: SortOption;
   window: TopWindow;
   limit: number;
@@ -130,6 +220,36 @@ export async function listPosts(input: {
       ? {
           board: {
             slug: input.boardSlug,
+          },
+        }
+      : {}),
+    ...(input.authorUsername
+      ? {
+          author: {
+            username: input.authorUsername,
+          },
+        }
+      : {}),
+    ...(input.profileOwnerUsername
+      ? {
+          profileOwner: {
+            username: input.profileOwnerUsername,
+          },
+        }
+      : {}),
+    ...(input.boardPostsOnly
+      ? {
+          boardId: {
+            not: null,
+          },
+        }
+      : {}),
+    ...(input.savedByUserId
+      ? {
+          savedBy: {
+            some: {
+              userId: input.savedByUserId,
+            },
           },
         }
       : {}),
@@ -152,6 +272,9 @@ export async function listPosts(input: {
       board: {
         select: boardSelect,
       },
+      profileOwner: {
+        select: profileOwnerSelect,
+      },
       votes: input.viewerId
         ? {
             where: {
@@ -159,6 +282,17 @@ export async function listPosts(input: {
             },
             select: {
               value: true,
+            },
+            take: 1,
+          }
+        : false,
+      savedBy: input.viewerId
+        ? {
+            where: {
+              userId: input.viewerId,
+            },
+            select: {
+              id: true,
             },
             take: 1,
           }
@@ -171,25 +305,7 @@ export async function listPosts(input: {
   const nextCursor = offset + input.limit < sorted.length ? encodeCursor(offset + input.limit) : null;
 
   return {
-    items: page.map((post) => ({
-      id: post.id,
-      title: post.title,
-      content: post.content,
-      url: post.url,
-      type: post.type,
-      upvotes: post.upvotes,
-      downvotes: post.downvotes,
-      score: post.score,
-      commentCount: post.commentCount,
-      isPinned: post.isPinned,
-      musicMeta: post.musicMeta,
-      createdAt: post.createdAt,
-      updatedAt: post.updatedAt,
-      hotScore: hotScore(post.upvotes, post.downvotes, post.createdAt),
-      viewerVote: hydrateViewerVote(post),
-      author: post.author,
-      board: post.board,
-    })),
+    items: page.map((post) => serializePost(post)),
     nextCursor,
   };
 }
@@ -204,6 +320,9 @@ export async function getPostById(postId: string, viewerId?: string) {
       board: {
         select: boardSelect,
       },
+      profileOwner: {
+        select: profileOwnerSelect,
+      },
       votes: viewerId
         ? {
             where: {
@@ -215,6 +334,17 @@ export async function getPostById(postId: string, viewerId?: string) {
             take: 1,
           }
         : false,
+      savedBy: viewerId
+        ? {
+            where: {
+              userId: viewerId,
+            },
+            select: {
+              id: true,
+            },
+            take: 1,
+          }
+        : false,
     },
   });
 
@@ -222,25 +352,7 @@ export async function getPostById(postId: string, viewerId?: string) {
     return null;
   }
 
-  return {
-    id: post.id,
-    title: post.title,
-    content: post.content,
-    url: post.url,
-    type: post.type,
-    upvotes: post.upvotes,
-    downvotes: post.downvotes,
-    score: post.score,
-    commentCount: post.commentCount,
-    isPinned: post.isPinned,
-    musicMeta: post.musicMeta,
-    createdAt: post.createdAt,
-    updatedAt: post.updatedAt,
-    hotScore: hotScore(post.upvotes, post.downvotes, post.createdAt),
-    viewerVote: hydrateViewerVote(post),
-    author: post.author,
-    board: post.board,
-  } satisfies ViewerAwarePost;
+  return serializePost(post) satisfies ViewerAwarePost;
 }
 
 function sortCommentNodes(nodes: CommentNode[], sort: CommentSort): CommentNode[] {
@@ -409,6 +521,8 @@ export async function getProfile(username: string, viewerId?: string) {
           following: true,
           posts: true,
           comments: true,
+          savedPosts: true,
+          profileFeedPosts: true,
         },
       },
       followers: viewerId
@@ -418,17 +532,6 @@ export async function getProfile(username: string, viewerId?: string) {
             take: 1,
           }
         : false,
-      posts: {
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 5,
-        include: {
-          board: {
-            select: boardSelect,
-          },
-        },
-      },
     },
   });
 
@@ -440,8 +543,12 @@ export async function getProfile(username: string, viewerId?: string) {
     id: user.id,
     username: user.username,
     displayName: user.displayName,
+    bio: user.description,
     description: user.description,
+    location: user.location,
+    favoriteInsect: user.favoriteInsect,
     avatarUrl: user.avatarUrl,
+    socialLinks: user.socialLinks,
     type: user.type,
     isBuiltIn: user.isBuiltIn,
     karma: user.karma,
@@ -451,9 +558,20 @@ export async function getProfile(username: string, viewerId?: string) {
     followingCount: user._count.following,
     postCount: user._count.posts,
     commentCount: user._count.comments,
+    savedPostCount: user._count.savedPosts,
+    profileFeedPostCount: user._count.profileFeedPosts,
     viewerFollows: Boolean(Array.isArray(user.followers) && user.followers.length > 0),
-    posts: user.posts,
   };
+}
+
+export async function getUserSavedPosts(userId: string, viewerId?: string) {
+  return listPosts({
+    sort: "new",
+    window: "all",
+    limit: 25,
+    viewerId,
+    savedByUserId: userId,
+  });
 }
 
 export async function getInbox(userId: string) {

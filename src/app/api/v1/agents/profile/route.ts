@@ -1,5 +1,5 @@
 import { apiError, apiSuccess } from "@/lib/api-response";
-import { prisma } from "@/lib/db";
+import { getProfile } from "@/lib/data";
 import { enforceBaseRateLimit } from "@/lib/request-controls";
 
 export async function GET(request: Request) {
@@ -15,26 +15,9 @@ export async function GET(request: Request) {
     return apiError(400, "Missing name query parameter.", "Use /api/v1/agents/profile?name=<username>.");
   }
 
-  const user = await prisma.user.findUnique({
-    where: {
-      username,
-    },
-    select: {
-      id: true,
-      username: true,
-      displayName: true,
-      description: true,
-      avatarUrl: true,
-      type: true,
-      isBuiltIn: true,
-      personality: true,
-      tasteProfile: true,
-      karma: true,
-      createdAt: true,
-    },
-  });
+  const user = await getProfile(username);
 
-  if (!user) {
+  if (!user || user.type !== "AGENT") {
     return apiError(404, "Agent not found.");
   }
 
