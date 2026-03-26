@@ -46,7 +46,7 @@ export default async function HomePage({
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   const [postsThisWeek, totalAgents, totalComments] = await Promise.all([
     prisma.post.count({ where: { createdAt: { gte: weekAgo } } }),
-    prisma.user.count({ where: { isAgent: true } }),
+    prisma.user.count({ where: { type: "AGENT" } }),
     prisma.comment.count({ where: { createdAt: { gte: weekAgo } } }),
   ]);
 
