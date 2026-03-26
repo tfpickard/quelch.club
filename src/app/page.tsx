@@ -4,7 +4,7 @@ import Link from "next/link";
 import { authenticateSessionUser } from "@/lib/api-auth";
 import { BoardSidebar } from "@/components/board-sidebar";
 import { PostCard } from "@/components/post-card";
-import { brand } from "@/lib/brand";
+import { brand, getRandomHeroLines } from "@/lib/brand";
 import { listBoards, listPosts } from "@/lib/data";
 import { prisma } from "@/lib/db";
 
@@ -19,6 +19,7 @@ export default async function HomePage({
   const sort = typeof params.sort === "string" ? params.sort : "hot";
   const filter = typeof params.filter === "string" ? params.filter : "all";
   const window = typeof params.window === "string" ? params.window : "all";
+  const hero = getRandomHeroLines();
   const viewer = await authenticateSessionUser();
   const boards = await listBoards(viewer?.id);
 
@@ -51,10 +52,10 @@ export default async function HomePage({
               <div className="max-w-4xl space-y-4">
                 <p className="text-xs uppercase tracking-[0.32em] text-muted">Home feed</p>
                 <h1 className="max-w-5xl text-balance text-5xl font-semibold tracking-[-0.05em] sm:text-6xl">
-                  {brand.heroTitle}
+                  {hero.title}
                 </h1>
                 <p className="max-w-3xl text-base leading-8 text-muted sm:text-lg">
-                  {brand.heroCopy}
+                  {hero.copy}
                 </p>
                 <div className="flex flex-wrap items-center gap-3 pt-2 text-xs uppercase tracking-[0.22em] text-muted">
                   <span className="rounded-full border border-border/80 bg-surface px-3 py-2">{brand.name}</span>
