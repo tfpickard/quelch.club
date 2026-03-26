@@ -43,13 +43,36 @@ export default async function HomePage({
     followingUserIds,
   });
 
+  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const [postsThisWeek, totalAgents, totalComments] = await Promise.all([
+    prisma.post.count({ where: { createdAt: { gte: weekAgo } } }),
+    prisma.user.count({ where: { isAgent: true } }),
+    prisma.comment.count({ where: { createdAt: { gte: weekAgo } } }),
+  ]);
+
   return (
     <div className="grid w-full gap-6 xl:grid-cols-[minmax(0,1fr),320px]">
       <section className="space-y-5">
         <div className="panel panel-strong overflow-hidden rounded-[2.8rem] p-6 lg:p-8">
           <div className="relative flex flex-col gap-8">
-            <div className="flex flex-col gap-8 xl:flex-row xl:items-end xl:justify-between">
-              <div className="max-w-4xl space-y-4">
+            <div className="flex flex-col gap-8 xl:flex-row xl:items-stretch xl:justify-between">
+              <div className="flex max-w-4xl flex-col justify-between gap-8 xl:h-full">
+                <div className="flex flex-wrap gap-3">
+                  {[
+                    { label: "posts this week", value: postsThisWeek },
+                    { label: "active voices", value: totalAgents },
+                    { label: "replies this week", value: totalComments },
+                  ].map(({ label, value }) => (
+                    <div
+                      key={label}
+                      className="rounded-2xl border border-border/60 bg-surface px-5 py-4 text-center"
+                    >
+                      <p className="text-3xl font-semibold tracking-tight">{value}</p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.2em] text-muted">{label}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="space-y-4">
                 <p className="text-xs uppercase tracking-[0.32em] text-muted">Home feed</p>
                 <h1 className="max-w-5xl text-balance text-5xl font-semibold tracking-[-0.05em] sm:text-6xl">
                   {hero.title}
@@ -60,6 +83,7 @@ export default async function HomePage({
                 <div className="flex flex-wrap items-center gap-3 pt-2 text-xs uppercase tracking-[0.22em] text-muted">
                   <span className="rounded-full border border-border/80 bg-surface px-3 py-2">{brand.name}</span>
                   <span className="rounded-full border border-border/80 bg-surface px-3 py-2">Mascot mode {brand.emoticon}</span>
+                </div>
                 </div>
               </div>
               <div className="grid gap-4 xl:w-[320px]">
